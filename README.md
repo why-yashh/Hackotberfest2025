@@ -1,4 +1,4 @@
-#  Hacktoberfest 2024 Is Awesome🔥
+#  Hacktoberfest 2025 Is Awesome🔥
 ![image](https://user-images.githubusercontent.com/70385488/192114009-0830321a-d227-4a4d-8411-6c03b54d7ce6.png)
 
 <div align="center">
@@ -25,7 +25,7 @@ A month-long celebration from October 1st to October 31st presented by [Digital 
 [https://hacktoberfest.digitalocean.com/](https://hacktoberfest.digitalocean.com/)
 
 ## Rules :fire:
-To qualify for the __official limited edition Hacktoberfest shirt__, you must register [here](https://hacktoberfest.digitalocean.com/) and make four Pull Requests (PRs) between October 1-31, 2024 (in any time zone). PRs can be made to any public repository on GitHub, not only the ones with issues labeled Hacktoberfest. This year, the __first 40,000__ participants who complete the challenge will earn a T-shirt.
+To qualify for the __official limited edition Hacktoberfest shirt__, you must register [here](https://hacktoberfest.digitalocean.com/) and make four Pull Requests (PRs) between October 1-31, 2025 (in any time zone). PRs can be made to any public repository on GitHub, not only the ones with issues labeled Hacktoberfest. This year, the __first 10,000__ participants who complete the challenge will earn a T-shirt.
 
 ## Steps to follow :scroll:
 
@@ -56,14 +56,14 @@ You can get your own fork/copy of [HacktoberFest-2024](https://github.com/Open-S
 You need to clone or (download) it to local machine using
 
 ```sh
-$ git clone https://github.com/Open-Source-you/Hackotberfest2024.git
+$ git clone https://github.com/Open-Source-you/Hackotberfest2025.git
 ```
 
 > This makes a local copy of the repository in your machine.
-Once you have cloned the `Hacktoberfest-2024` repository in Github, move to that folder first using change directory command on Linux, Mac, and Windows(PowerShell to be used).
+Once you have cloned the `Hacktoberfest-2025` repository in Github, move to that folder first using change directory command on Linux, Mac, and Windows(PowerShell to be used).
 
 ```sh
-# This will change directory to a folder Hacktoberfest-2024
+# This will change directory to a folder Hacktoberfest-2025
 $ cd Hackotberfest2024
 ```
 
@@ -75,11 +75,11 @@ Run the following commands to see that *your local copy* has a reference to *you
 
 ```sh
 $ git remote -v
-origin  https://github.com/Your_Username/Hacktoberfest-2024.git (fetch)
-origin  https://github.com/Your_Username/Hacktoberfest-2024.git (push)
+origin  https://github.com/Your_Username/Hacktoberfest-2025.git (fetch)
+origin  https://github.com/Your_Username/Hacktoberfest-2025.git (push)
 ```
 
-Now, let's add a reference to the original [Hacktoberfest-2024]https://github.com/Open-Source-you/Hackotberfest2022) repository using
+Now, let's add a reference to the original [Hacktoberfest-2025]https://github.com/Open-Source-you/Hackotberfest2022) repository using
 
 ```sh
 $ git remote add upstream https://github.com/Open-Source-you/Hackotberfest2024.git
@@ -90,18 +90,18 @@ See the changes using
 
 ```sh
 $ git remote -v
-origin    https://github.com/Your_Username/Hacktoberfest-2024.git (fetch)
-origin    https://github.com/Your_Username/Hacktoberfest-2024.git (push)
-upstream  https://github.com/Remote_Username/Hacktoberfest-2024.git (fetch)
-upstream  https://github.com/Remote_Username/Hacktoberfest-2024.git (push)
+origin    https://github.com/Your_Username/Hacktoberfest-2025.git (fetch)
+origin    https://github.com/Your_Username/Hacktoberfest-2025.git (push)
+upstream  https://github.com/Remote_Username/Hacktoberfest-2025.git (fetch)
+upstream  https://github.com/Remote_Username/Hacktoberfest-2025.git (push)
 ```
 `In your case, you will see`
 ```sh
 $ git remote -V
-origin    https://github.com/Your_Username/Hacktoberfest-2024.git (fetch)
-origin    https://github.com/Your_Username/Hacktoberfest-2024.git (push)
-upstream  https://github.com/kishanrajput23/Hacktoberfest-2024.git (fetch)
-upstream  https://github.com/kishanrajput23/Hacktoberfest-2024.git (push)
+origin    https://github.com/Your_Username/Hacktoberfest-2025.git (fetch)
+origin    https://github.com/Your_Username/Hacktoberfest-2025.git (push)
+upstream  https://github.com/kishanrajput23/Hacktoberfest-2025.git (fetch)
+upstream  https://github.com/kishanrajput23/Hacktoberfest-2025.git (push)
 ```
 
 ### 5. Sync it :recycle:
@@ -116,13 +116,13 @@ $ git fetch --all --prune
 $ git checkout main
 # Reset local `main` branch to match the `upstream` repository's `main` branch
 $ git reset --hard upstream/main
-# Push changes to your forked `Hacktoberfest-2024` repo
+# Push changes to your forked `Hacktoberfest-2025` repo
 $ git push origin main
 ```
 
 ### 6. Ready Steady Go... :turtle: :rabbit2:
 
-Once you have completed these steps, you are ready to start contributing by checking our `Good First Issue` Issues and creating [pull requests](https://github.com/kishanrajput23/Hacktoberfest-2024/pulls).
+Once you have completed these steps, you are ready to start contributing by checking our `Good First Issue` Issues and creating [pull requests](#).
 
 ### 7. Create a new branch :bangbang:
 
