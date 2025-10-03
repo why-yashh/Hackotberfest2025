@@ -1,23 +1,5 @@
 
 
-.heading{
-    font-weight: bold;
-    font-size:2rem;
-}
-.btn{
-    padding: 7px 16px;
-    border: 1px solid;
-    border-radius: 50px;
-    color: #e51065;
-    font-weight: 600;
-    cursor: pointer;
-    
-}
-.btn:hover{
-    color: #FFA6C9;
-    background-color: #e51065 ;
-    font-style: italic;
-}
 .formbtn{
     padding: 7px 16px;
     border: 1px dotted #e51065 ;
