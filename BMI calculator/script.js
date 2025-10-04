@@ -19,6 +19,22 @@ function Caln() {
     tip.textContent = 'Please enter valid height (cm) and weight (kg).';
     return;
   }
+  // Reset everything (inputs + outputs)
+function resetAll() {
+  document.getElementById('h-input').value = '';
+  document.getElementById('w-input').value = '';
+  document.getElementById('bmi-output').textContent = '';
+  document.getElementById('bmi-status').textContent = '';
+  document.getElementById('tip').textContent = '';
+}
+
+// Clear outputs only
+function clearOutputs() {
+  document.getElementById('bmi-output').textContent = '';
+  document.getElementById('bmi-status').textContent = '';
+  document.getElementById('tip').textContent = '';
+}
+
   // Determine status
   let status = '';
   if (bmiRounded < 18.5) {
