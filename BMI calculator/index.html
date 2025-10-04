@@ -1,35 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="main.css">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BMI Calculator</title>
+    <link rel="stylesheet" href="main.css" />
     <script src="script.js" defer></script>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@700&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <div class="container">  
+    <div class="container">
         <h1><b>BMI CALCULATOR</b></h1>
-        <label>
-            <input id="h-input" type="number" class="values" placeholder="Enter Your Height in CM: ">
-        </label>        
-        <label>
-            <input id="w-input" type="number"  class="values" placeholder="Enter Your Weight in KG: ">
-        </label>            
-        <button type="submit" onclick="Caln()" class="submit">Calculate</button>
-            
-        <div class="bmi-value">
-            <h4>BMI Value: </h4>
-            <div id="bmi-output"></div>
+
+        <div class="inputs">
+            <label>
+                <input id="h-input" type="number" class="values" placeholder="Enter Your Height in CM" min="0" />
+            </label>
+            <label>
+                <input id="w-input" type="number" class="values" placeholder="Enter Your Weight in KG" min="0" />
+            </label>
         </div>
-        <div class="status">
-            <h4>Status: </h4>
-            <div id="bmi-status"></div>
-        </div>   
+
+        <div class="actions">
+            <button type="button" id="calc-btn" class="primary" onclick="Caln()">Calculate</button>
+
+            <!-- New buttons -->
+            <button type="button" id="reset-btn" class="secondary" onclick="resetAll()">Reset</button>
+            <button type="button" id="clear-btn" class="secondary" onclick="clearOutputs()">Clear</button>
+            <button type="button" id="copy-btn" class="secondary" onclick="copyBMI()">Copy BMI</button>
+            <button type="button" id="save-btn" class="secondary" onclick="saveEntry()">Save Entry</button>
+            <button type="button" id="load-btn" class="secondary" onclick="loadLastEntry()">Load Last Entry</button>
+            <button type="button" id="help-btn" class="secondary" onclick="showHelp()">Help</button>
+        </div>
+
+        <div class="results">
+            <div class="bmi-value">
+                <h4>BMI Value:</h4>
+                <div id="bmi-output" class="output"></div>
+            </div>
+
+            <div class="status">
+                <h4>Status:</h4>
+                <div id="bmi-status" class="output"></div>
+            </div>
+        </div>
+
+        <div id="tip" class="tip" aria-live="polite"></div>
     </div>
-    
 </body>
 </html>
