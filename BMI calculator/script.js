@@ -19,6 +19,39 @@ function Caln() {
     tip.textContent = 'Please enter valid height (cm) and weight (kg).';
     return;
   }
+  // Reset everything (inputs + outputs)
+function resetAll() {
+  document.getElementById('h-input').value = '';
+  document.getElementById('w-input').value = '';
+  document.getElementById('bmi-output').textContent = '';
+  document.getElementById('bmi-status').textContent = '';
+  document.getElementById('tip').textContent = '';
+}
+
+// Clear outputs only
+function clearOutputs() {
+  document.getElementById('bmi-output').textContent = '';
+  document.getElementById('bmi-status').textContent = '';
+  document.getElementById('tip').textContent = '';
+}
+
+  // Determine status
+  let status = '';
+  if (bmiRounded < 18.5) {
+    status = 'Underweight';
+  } else if (bmiRounded < 25) {
+    status = 'Normal weight';
+  } else if (bmiRounded < 30) {
+    status = 'Overweight';
+  } else {
+    status = 'Obesity';
+  }
+
+  // Update UI
+  bmiOut.textContent = bmiRounded;
+  statusOut.textContent = status;
+  tip.textContent = `Calculated for ${hCm} cm and ${wKg} kg. BMI = ${bmiRounded}.`;
+}
 
   // Convert height to meters
   const hM = hCm / 100;
