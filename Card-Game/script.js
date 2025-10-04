@@ -216,4 +216,5 @@ function hide_all_cards(){
     show_all_cards();
     setTimeout(hide_all_cards,1000);
     setTimeout(timer,1300);
+
 }
