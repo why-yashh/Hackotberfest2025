@@ -19,6 +19,23 @@ function Caln() {
     tip.textContent = 'Please enter valid height (cm) and weight (kg).';
     return;
   }
+  // Determine status
+  let status = '';
+  if (bmiRounded < 18.5) {
+    status = 'Underweight';
+  } else if (bmiRounded < 25) {
+    status = 'Normal weight';
+  } else if (bmiRounded < 30) {
+    status = 'Overweight';
+  } else {
+    status = 'Obesity';
+  }
+
+  // Update UI
+  bmiOut.textContent = bmiRounded;
+  statusOut.textContent = status;
+  tip.textContent = `Calculated for ${hCm} cm and ${wKg} kg. BMI = ${bmiRounded}.`;
+}
 
   // Convert height to meters
   const hM = hCm / 100;
