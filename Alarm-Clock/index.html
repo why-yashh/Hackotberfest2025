@@ -10,10 +10,7 @@
 <body>
     
     
-        const now = new Date();
-        const alarmTime = new Date(alarmInput.value);
-        const timeDifference = alarmTime - now;
-
+      
         if (timeDifference > 0) {
             setTimeout(() => {
                 alarmStatus.textContent = 'Alarm ringing!';
