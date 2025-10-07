@@ -1,28 +1,4 @@
 
-update() {
-  this.positionX = (this.positionX + this.velocityX + this.tileCount) % this.tileCount;
-  this.positionY = (this.positionY + this.velocityY + this.tileCount) % this.tileCount;
-
-  this.trail.forEach(t => {
-    if (this.positionX === t.positionX && this.positionY === t.positionY) {
-      this.reset();
-    }
-  });
-}
-
-
-        this.trail.push({ positionX: this.positionX, positionY: this.positionY });
-
-        while (this.trail.length > this.tailSize) {
-            this.trail.shift();
-        }
-
-        if (this.appleX === this.positionX && this.appleY === this.positionY) {
-            this.tailSize++;
-            this.appleX = Math.floor(Math.random() * this.tileCount);
-            this.appleY = Math.floor(Math.random() * this.tileCount);
-        }
-    }
 
     draw() {
         this.context.fillStyle = 'black';
