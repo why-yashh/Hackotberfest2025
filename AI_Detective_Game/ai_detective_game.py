@@ -13,35 +13,38 @@ class AIDetective:
             "room": random.choice(self.rooms)
         }
 
-   //bad logic 
+```java
 import java.util.*;
 
 class Main {
-    public static void main(String args[]) {
-        Hang hm = new Hang();
-        hm.Generate();
+    public static void main(String[] args) {
+        new Hang().Generate();
     }
 }
+```
 
+```java
 class Hang {
-    Random rd = new Random();
-    Scanner sc = new Scanner(System.in);
-    String s = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    int n = s.length();
-    char[] c = new char[6]; // Array for random letters
-    char[] c1 = {'_', '_', '_', '_', '_', '_'}; // Array to display guessed letters
-    int maxAttempts = 6; // Maximum allowed attempts
+    private final Random rd = new Random();
+    private final Scanner sc = new Scanner(System.in);
+    private final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private final int alphabetLength = alphabet.length();
+    private final char[] word = new char[6]; // Random 6-letter word
+    private final char[] displayedWord = {'_', '_', '_', '_', '_', '_'}; // Guessed letters display
+    private final int maxAttempts = 6; // Maximum attempts
 
     void Generate() {
         // Generate a random 6-letter word
-        for (int i = 0; i < 6; i++) {
-            c[i] = s.charAt(rd.nextInt(n));
+        for (int i = 0; i < word.length; i++) {
+            word[i] = alphabet.charAt(rd.nextInt(alphabetLength));
         }
 
         System.out.println("Guess the 6-letter word:");
         displayWord();
         Function();
     }
+}
+```
 
     void displayWord() {
         // Display the current state of the guessed word
