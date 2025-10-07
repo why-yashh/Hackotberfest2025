@@ -85,20 +85,20 @@ def solve_case(self, culprit, weapon, room):
         else:
             return "I'm afraid that's not correct. Let's continue our investigation."
 
-    def play(self):
-        self.introduce_game()
-        while not self.case_solved:
-            user_input = input("What would you like to do? ").strip().lower()
-            if user_input == "solve":
-                culprit = input("Who is the culprit? ")
-                weapon = input("What is the murder weapon? ")
-                room = input("In which room did the murder occur? ")
-                print(self.solve_case(culprit, weapon, room))
-            elif user_input == "quit":
-                print("Thank you for playing. The case remains unsolved.")
-                break
-            else:
-                print(self.get_clue())
+    # def play(self):
+    #     self.introduce_game()
+    #     while not self.case_solved:
+    #         user_input = input("What would you like to do? ").strip().lower()
+    #         if user_input == "solve":
+    #             culprit = input("Who is the culprit? ")
+    #             weapon = input("What is the murder weapon? ")
+    #             room = input("In which room did the murder occur? ")
+    #             print(self.solve_case(culprit, weapon, room))
+    #         elif user_input == "quit":
+    #             print("Thank you for playing. The case remains unsolved.")
+    #             break
+    #         else:
+    #             print(self.get_clue())
 
 if __name__ == "__main__":
     game = AIDetective()
