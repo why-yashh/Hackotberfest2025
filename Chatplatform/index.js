@@ -1,20 +1,19 @@
+```javascript
 const express = require('express');
 const path = require('path');
 const http = require('http');
-const socketio=require('socket.io');
-// const formatMessage = require('./utils/messages');
-const {
-    userJoin,
-    userLeave,
-    getCurrentUser,
-    getRoomUsers
-} = require('./utils/users');
+const socketio = require('socket.io');
+const { userJoin, userLeave, getCurrentUser, getRoomUsers } = require('./utils/users');
 const formatMessage = require('./utils/messages');
+
 const app = express();
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
+
 const server = http.createServer(app);
-const io=socketio(server);
-const botName = "Admin ";
+const io = socketio(server);
+
+const botName = 'Admin';
+```
 io.on('connection', (socket)=>{
     // socket represents an actual user
     // emit a endt to the client 
