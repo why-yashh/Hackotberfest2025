@@ -5,23 +5,25 @@ import Allroutes from './routes/Allroutes';
 import { setSocket } from './redux/socketSlice';
 import { setOnlineUsers } from './redux/userSlice';
 
+```javascript
 function App() {
   const { authUser } = useSelector((store) => store.user);
-  const { socket } = useSelector((store) => store.socket);
- 
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (authUser) {
-      const socket = io('http://localhost:8080', {
-      query :{
-        userId :authUser._id}
-      });
+      const socket = io('http://localhost:8080', { query: { userId: authUser._id } });
       dispatch(setSocket(socket));
-      socket.on('getOnlineUsers', (onlineUsers)=>{
-       dispatch(setOnlineUsers(onlineUsers))
-      })
-      return ()=> socket.close()
+
+      socket.on('getOnlineUsers', (onlineUsers) => {
+        dispatch(setOnlineUsers(onlineUsers));
+      });
+
+      return () => socket.close();
     }
+  }, [authUser, dispatch]);
+}
+```
     else{
       if(socket)socket.close();
       dispatch(setSocket(null))
