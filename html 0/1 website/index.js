@@ -1,53 +1,15 @@
-class SnakeGame {
-    constructor() {
-        this.canvas = document.getElementById('game');
-        this.context = this.canvas.getContext('2d');
-        document.addEventListener('keydown', this.onKeyPress.bind(this));
+
+update() {
+  this.positionX = (this.positionX + this.velocityX + this.tileCount) % this.tileCount;
+  this.positionY = (this.positionY + this.velocityY + this.tileCount) % this.tileCount;
+
+  this.trail.forEach(t => {
+    if (this.positionX === t.positionX && this.positionY === t.positionY) {
+      this.reset();
     }
+  });
+}
 
-    init() {
-        this.positionX = this.positionY = 10;
-        this.appleX = this.appleY = 5;
-        this.tailSize = 5;
-        this.trail = [];
-        this.gridSize = this.tileCount = 25;
-        this.velocityX = this.velocityY = 0;
-
-        this.timer = setInterval(this.loop.bind(this), 1000 / 15);
-    }
-
-    reset() {
-        clearInterval(this.timer);
-        this.init();
-    }
-
-    loop() {
-        this.update();
-        this.draw();
-    }
-
-    update() {
-        this.positionX += this.velocityX;
-        this.positionY += this.velocityY;
-
-        if (this.positionX < 0) {
-            this.positionX = this.tileCount - 1;
-        }
-        if (this.positionY < 0) {
-            this.positionY = this.tileCount - 1;
-        }
-        if (this.positionX > this.tileCount - 1) {
-            this.positionX = 0;
-        }
-        if (this.positionY > this.tileCount - 1) {
-            this.positionY = 0;
-        }
-
-        this.trail.forEach(t => {
-            if (this.positionX === t.positionX && this.positionY === t.positionY) {
-                this.reset();
-            }
-        });
 
         this.trail.push({ positionX: this.positionX, positionY: this.positionY });
 
