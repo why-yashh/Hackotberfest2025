@@ -1,73 +1,91 @@
-*{margin: 0; padding: 0;font-family: 'Old Standard TT', serif;}
-.container{
-     display: grid;
-     justify-content: center;
-     align-content: center;
-     min-height: 100vh;
-     grid-template-columns: 30vw;
-     grid-template-rows: repeat(3,10vh) 5vh repeat(2,10vh);
-     grid-gap: 10px;
-     
-}
-body{
-    background-color: #D9AFD9;
-    background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
-
-}
-
-h1{
-    text-align: center;
-    color: white;
-}
-.values{
-    background-color: whitesmoke;
-}
-.bmi-value{
-    background-color: rgb(238, 222, 234);
-    display: grid;
-    grid-template-rows: 50% 50%;
-}
-.status{
-    background-color: rgb(240, 173, 207);
-    display: grid;
-    grid-template-rows: 50% 50%;
-    
-}
-.container > div{
-    padding: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    color: black;
-    border-radius: 10px;
-}
-button,input{
-    min-width: 100%;
-    min-height: 100%;
-    border: none;
-    outline: none;
-    font-size: 1.5vw;
-    border-radius: 8px;
-}
-input{
-    background: #e4b659;
-    text-indent: 0.5em;
-    max-width:100% ;
-    color: black;
-    outline: none;
-}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+```css
+/* Reset */
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
-input[type=number] {
-    -moz-appearance: textfield;
+
+/* Input Styles */
+.inputs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 14px;
 }
-button{
-    background: tomato;
-    cursor: pointer;
+
+.inputs label {
+  flex: 1;
 }
-button:hover{
-    background: #c70039;
-    color: white;
+
+.values {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d7dbe6;
+  border-radius: 8px;
+  font-size: 16px;
+}
+```
+
+/* Actions */
+.actions {
+  margin: 12px 0 18px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+button {
+  cursor: pointer;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+button:active { transform: translateY(1px); }
+
+/* Primary and secondary styles */
+button.primary {
+  background: linear-gradient(90deg,#2b7be4,#4aa0ff);
+  color: white;
+  box-shadow: 0 6px 18px rgba(67,119,255,0.18);
+}
+button.secondary {
+  background: #f3f5fb;
+  color: #1b1f2a;
+  border: 1px solid #e6e9f2;
+}
+
+/* Results */
+.results {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.bmi-value, .status {
+  min-width: 200px;
+  text-align: left;
+}
+.output {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px dashed #e2e6f0;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+}
+
+/* Tip area */
+.tip {
+  margin-top: 14px;
+  color: #3d4b6b;
+  font-size: 14px;
+  opacity: 0.95;
 }
