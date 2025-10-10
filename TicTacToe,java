@@ -18,18 +18,7 @@ public class TicTacToe implements ActionListener
 		TicTacToe(){
 			icon=new ImageIcon("Icon.png");
 
-			Font btn=new Font("Arial",Font.BOLD,50);
-
-			frame=new JFrame("Tic Tac Toe");
-			frame.setSize(270,360);
-			frame.setLocation(550,250);
-			frame.setLayout(null);
-			frame.setBackground(Color.WHITE);
-			frame.setIconImage(icon.getImage());
-			frame.setResizable(false);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-			font=new Font("Courgette",Font.BOLD,50);
+	
 
 			Container c=frame.getContentPane();
 			c.setBackground(Color.BLACK);
