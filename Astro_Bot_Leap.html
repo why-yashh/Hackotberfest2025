@@ -111,6 +111,18 @@
             </button>
         </div>
 
+          <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro-Bot's Leap</title>
+    <!-- Load Tailwind CSS CDN for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Tone.js for sound effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+    <!-- Load Orbitron font for arcade look -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    </style>
+
         <!-- Game Over / Start Message Modal -->
         <div id="message-modal" class="hidden fixed inset-0 bg-space-dark bg-opacity-90 z-20 items-center justify-center" onclick="hideMessage()">
             <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-4 border-jumper-glow max-w-md w-full mx-4" onclick="event.stopPropagation()">
