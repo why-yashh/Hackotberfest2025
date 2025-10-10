@@ -21,13 +21,5 @@ def main():
     # Create an object of PasswordGenerator
     generator = PasswordGenerator()
 
-    # Get password length from user
-    length = int(input("Enter password length: "))
-    generator.set_length(length)
-
-    # Generate password
-    password = generator.generate_password()
-    print("\nYour generated password is:", password)
-
 if __name__ == "__main__":
     main()
