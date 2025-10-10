@@ -1,26 +1,3 @@
-/*
-  Program: Linked List Cycle Detection (Floyd's Tortoise and Hare Algorithm)
-  Problem:
-    Given the head pointer of a singly linked list, determine if the list contains a cycle.
-
-  Approach:
-    Use two pointers (slow and fast) moving at different speeds.
-    If they meet, a cycle exists.
-
-  Example Input:
-    // 1 -> 2 -> 3 -> 4
-    //      ^         |
-    //      |_________|
-
-  Example Output:
-    Cycle detected: Yes
-
-    // For 1 -> 2 -> 3 -> 4 -> nullptr
-    Cycle detected: No
-
-  Time Complexity: O(n)
-  Space Complexity: O(1)
-*/
 
 #include <iostream>
 using namespace std;
