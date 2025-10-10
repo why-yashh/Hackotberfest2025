@@ -40,7 +40,15 @@ class Solution {
         
     }
     return;
-       
+       class Solution {
+  public:
+    void pushing(int x, int y, vector<vector<int>> &v,string temp, vector<string> &ans, vector<vector<int>> &vis) {
+    int n = v.size();
+    if (x == n-1 && y == n-1) {
+        ans.push_back(temp);
+        return;
+        
+    }
         
     }
     vector<string> ratInMaze(vector<vector<int>>& maze) {
