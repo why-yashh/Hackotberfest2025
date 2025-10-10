@@ -18,17 +18,5 @@ def number_guessing_game():
         except ValueError:
             print("Please enter a valid number.")
             continue
-
-        attempts += 1
-        
-        # Check the player's guess
-        if player_guess < number_to_guess:
-            print("Too low! Try again.")
-        elif player_guess > number_to_guess:
-            print("Too high! Try again.")
-        else:
-            print(f"Congratulations! You've guessed the number in {attempts} attempts.")
-            break
-
 # Start the game
 number_guessing_game()
