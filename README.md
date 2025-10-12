@@ -1,5 +1,6 @@
 #  Hacktoberfest 2025 Is Awesome🔥
-![image](https://user-images.githubusercontent.com/70385488/192114009-0830321a-d227-4a4d-8411-6c03b54d7ce6.png)
+<img width="1814" height="891" alt="image" src="https://github.com/user-attachments/assets/fb5725be-afeb-4a97-96f1-e3d05a73fc7b" />
+
 
 <div align="center">
 
