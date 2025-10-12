@@ -16,4 +16,4 @@ from unittest import main
 
 
 # Uncomment line below to run unit tests automatically
-main(module='test_module', exit=False)
+main(module="test_module", exit=False)

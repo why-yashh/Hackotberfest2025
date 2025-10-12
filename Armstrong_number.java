@@ -4,7 +4,7 @@ public class Armstrong {
 	// Function to calculate x raised to the
 	// power y
 
-	// Function to calculate order of the number 
+	// Function to calculate order of the number
 	int order(int x)
 	{
 		int n = 0;

@@ -17,7 +17,7 @@ int main() {
 
     printf("Enter a message: ");
     fgets(message, sizeof(message), stdin);
-    message[strcspn(message, "\n")] = 0; 
+    message[strcspn(message, "\n")] = 0;
 
     printf("Enter an encryption key: ");
     fgets(key, sizeof(key), stdin);

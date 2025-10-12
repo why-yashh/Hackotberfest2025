@@ -34,4 +34,3 @@ All images used were personally clicked by @harshh-2
 Fonts: Default system sans-serif
 
 Icons: Font Awesome 6.7.2
-

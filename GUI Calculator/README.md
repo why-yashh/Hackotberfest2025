@@ -1,6 +1,6 @@
 # 🧮 Smart GUI Calculator (Python + Tkinter)
 
-A sleek, fully functional **GUI Calculator** built using **Python’s Tkinter** library.  
+A sleek, fully functional **GUI Calculator** built using **Python’s Tkinter** library.
 This calculator supports **arithmetic**, **power**, **square roots**, and **trigonometric functions (in degrees)** — all with an elegant dark theme.
 
 ---
@@ -20,7 +20,6 @@ This calculator supports **arithmetic**, **power**, **square roots**, and **trig
 
 ## 🧩 Tech Stack
 
-- **Language:** Python   
-- **Library:** Tkinter (for GUI)  
-- **Math:** Built-in `math` module  
-
+- **Language:** Python
+- **Library:** Tkinter (for GUI)
+- **Math:** Built-in `math` module

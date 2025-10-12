@@ -1,4 +1,3 @@
-
 def explore_library(self):
     print("You enter the library filled with dusty books.")
     found_item = random.choice(["a key", "a mysterious book", "nothing"])
@@ -7,11 +6,13 @@ def explore_library(self):
     else:
         print(f"You found {found_item}!")
         self.inventory.append(found_item)
-    
+
     def go_basement(self):
         print("You descend into the dark basement.")
         if "a key" in self.inventory:
-            print("You use the key to unlock a hidden door. You've discovered a secret room!")
+            print(
+                "You use the key to unlock a hidden door. You've discovered a secret room!"
+            )
             self.game_over = True
             print("Congratulations! You solved the mystery!")
         else:
@@ -35,6 +36,7 @@ def explore_library(self):
     def end_game(self):
         print("Thank you for playing! Goodbye!")
         self.game_over = True
+
 
 if __name__ == "__main__":
     game = MysteryAdventure()

@@ -19,7 +19,7 @@ window.onload = function(){
 
     //context.fillStyle = "green";
     //context.fillRect(bird.x, bird.y, bird.width, bird.height);
-    
+
     birdImg = new Image();
     birdImg.src = "./Images/flappybird.png";
     birdImg.onload = function(){

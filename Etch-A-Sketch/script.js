@@ -43,7 +43,7 @@ Rainbow.addEventListener("click",()=>{
 ers.addEventListener("click",()=>{
     colormode="eraser";
     Rainbow.innerHTML=`🤍<br><br>Switch to black`;
-   
+
 })
 
 rest.addEventListener("click",()=>{
@@ -51,9 +51,9 @@ pop.style.display="flex";
 });
 
 col.addEventListener("input", (e) => {
-    color = e.target.value;     
-    colormode = "custom";       
-    col.style.backgroundColor = color;  
+    color = e.target.value;
+    colormode = "custom";
+    col.style.backgroundColor = color;
 });
 
 function grid(){
@@ -108,15 +108,9 @@ function colorpick(colormode){
         return "white";
     }
     else if(colormode === "custom"){
-        return color;  
+        return color;
     }
     else{
         return "black";
     }
 }
-
-
-
-
-
-

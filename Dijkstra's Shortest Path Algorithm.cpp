@@ -2,12 +2,12 @@
  * Program: Dijkstra's Shortest Path Algorithm
  * Problem Statement: Find the shortest path from a source vertex to all other vertices
  * in a weighted graph with non-negative edge weights.
- * 
+ *
  * Input Example:
  *   Graph with 5 vertices (0-4)
  *   Edges: (0,1,4), (0,2,1), (1,3,1), (2,1,2), (2,3,5), (3,4,3)
  *   Source: 0
- * 
+ *
  * Output Example:
  *   Shortest distances from vertex 0:
  *   Vertex 0: 0
@@ -15,7 +15,7 @@
  *   Vertex 2: 1
  *   Vertex 3: 4
  *   Vertex 4: 7
- * 
+ *
  * Time Complexity: O((V + E) log V) using priority queue
  * Space Complexity: O(V)
  * Where V = vertices, E = edges
@@ -51,10 +51,10 @@ public:
     std::vector<int> dijkstra(int source) {
         // Distance array initialized to infinity
         std::vector<int> distance(vertices, INT_MAX);
-        
+
         // Priority queue: {distance, vertex}
-        std::priority_queue<std::pair<int, int>, 
-                          std::vector<std::pair<int, int>>, 
+        std::priority_queue<std::pair<int, int>,
+                          std::vector<std::pair<int, int>>,
                           std::greater<std::pair<int, int>>> pq;
 
         // Distance to source is 0
@@ -105,7 +105,7 @@ public:
         std::cout << "\nShortest distances from vertex " << source << ":" << std::endl;
         std::cout << std::setw(8) << "Vertex" << std::setw(12) << "Distance" << std::endl;
         std::cout << std::string(20, '-') << std::endl;
-        
+
         for (int i = 0; i < vertices; i++) {
             std::cout << std::setw(8) << i;
             if (distances[i] == INT_MAX) {
@@ -156,27 +156,27 @@ void demonstrateDijkstra() {
 // Interactive function to create custom graph
 void interactiveMode() {
     int vertices, edges, source;
-    
+
     std::cout << "\n=== Interactive Mode ===" << std::endl;
     std::cout << "Enter number of vertices: ";
     std::cin >> vertices;
-    
+
     if (vertices <= 0) {
         std::cout << "Invalid number of vertices!" << std::endl;
         return;
     }
 
     Graph g(vertices);
-    
+
     std::cout << "Enter number of edges: ";
     std::cin >> edges;
-    
+
     std::cout << "Enter edges (source destination weight):" << std::endl;
     for (int i = 0; i < edges; i++) {
         int src, dest, weight;
         std::cout << "Edge " << (i + 1) << ": ";
         std::cin >> src >> dest >> weight;
-        
+
         if (src >= 0 && src < vertices && dest >= 0 && dest < vertices && weight >= 0) {
             g.addEdge(src, dest, weight);
         } else {
@@ -184,10 +184,10 @@ void interactiveMode() {
             i--; // Retry current edge
         }
     }
-    
+
     std::cout << "Enter source vertex (0 to " << (vertices - 1) << "): ";
     std::cin >> source;
-    
+
     if (source >= 0 && source < vertices) {
         g.printGraph();
         std::vector<int> distances = g.dijkstra(source);
@@ -199,14 +199,14 @@ void interactiveMode() {
 
 int main() {
     int choice;
-    
+
     std::cout << "Dijkstra's Shortest Path Algorithm" << std::endl;
     std::cout << "1. Run demonstration examples" << std::endl;
     std::cout << "2. Interactive mode" << std::endl;
     std::cout << "3. Both" << std::endl;
     std::cout << "Enter your choice (1-3): ";
     std::cin >> choice;
-    
+
     switch (choice) {
         case 1:
             demonstrateDijkstra();
@@ -222,7 +222,7 @@ int main() {
             std::cout << "Invalid choice! Running demonstration..." << std::endl;
             demonstrateDijkstra();
     }
-    
+
     std::cout << "\nProgram completed successfully!" << std::endl;
     return 0;
 }

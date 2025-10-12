@@ -38,7 +38,7 @@ flowchart LR
     branch-->Edit[Edit file]
     Edit-->commit[Commit the changes]
     commit -->|Finally|creatpr((Create a Pull Request))
-    
+
  ```
 
 ### 1. Star The Repository :star2:
@@ -177,5 +177,16 @@ We love to have `articles` and `codes` in different languages and the `bettermen
 Please discuss it with us first by creating a new issue.
 
 :tada: :confetti_ball: :smiley: _**Happy Contributing**_ :smiley: :confetti_ball: :tada:
+## Development Setup
 
+### Installing Pre-commit Hooks
 
+This project uses pre-commit hooks to maintain code quality. Follow these steps to set up pre-commit on your local machine:
+
+#### 1. Install pre-commit
+```bash
+# Using pip
+pip install pre-commit
+
+# Or install all dev dependencies
+pip install -r requirements-dev.txt

@@ -12,13 +12,13 @@ public class TicTacToe implements ActionListener
 		JLabel label;
 
 		JButton btns[]=new JButton[9];
-		
+
 		boolean xturn;
 
 		TicTacToe(){
 			icon=new ImageIcon("Icon.png");
 
-	
+
 
 			Container c=frame.getContentPane();
 			c.setBackground(Color.BLACK);
@@ -80,10 +80,10 @@ public class TicTacToe implements ActionListener
 			}
 		}
 	}
-}	
-	public void firstTurn() 
+}
+	public void firstTurn()
 	{
-		for (int i=1;i<=9;i++) 
+		for (int i=1;i<=9;i++)
 		{
 			if(i%2==1)
 			{
@@ -242,5 +242,5 @@ label=new JLabel();
 		for (int i=0;i<9;i++) {
 			btns[i].setEnabled(false);
 		}
-	}	
-}	
+	}
+}

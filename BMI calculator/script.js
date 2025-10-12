@@ -60,7 +60,7 @@ function clearOutputs() {
   // Round to one decimal place
   const bmiRounded = Math.round(bmi * 10) / 10;
 
-  
+
 
 // Copy BMI value to clipboard
 function copyBMI() {

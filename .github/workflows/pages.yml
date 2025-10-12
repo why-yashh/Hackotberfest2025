@@ -26,7 +26,7 @@ on:
       - '!**/*.log'
       - '!**/*.tmp'
       - '!**/*.temp'
-  
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -52,10 +52,10 @@ jobs:
         with:
           # Disable submodules to prevent errors with missing submodule URLs
           submodules: false
-        
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

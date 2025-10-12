@@ -3,6 +3,7 @@
 import queue
 from events import MarketEvent, SignalEvent, OrderEvent, FillEvent
 
+
 class Backtest:
     def __init__(self, data_handler, strategy, portfolio, execution_handler):
         self.events = queue.Queue()
@@ -24,11 +25,11 @@ class Backtest:
                 except queue.Empty:
                     break
                 else:
-                    if event.type == 'MARKET':
+                    if event.type == "MARKET":
                         self.strategy.calculate_signals(event)
-                    elif event.type == 'SIGNAL':
+                    elif event.type == "SIGNAL":
                         self.portfolio.update_signal(event)
-                    elif event.type == 'ORDER':
+                    elif event.type == "ORDER":
                         self.execution_handler.execute_order(event)
-                    elif event.type == 'FILL':
+                    elif event.type == "FILL":
                         self.portfolio.update_fill(event)

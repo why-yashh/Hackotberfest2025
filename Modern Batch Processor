@@ -128,14 +128,14 @@
 <div class="container">
     <h1>Batch Processor</h1>
     <p class="description">Enter a list of items to process, one per line.</p>
-    
+
     <div class="form-group">
         <textarea id="batch-input" placeholder="e.g.,
 item-A
 item-B
 item-C"></textarea>
     </div>
-    
+
     <button id="process-btn" class="button-primary">Process Batch</button>
 
     <h2>Processing Log</h2>
@@ -173,7 +173,7 @@ item-C"></textarea>
                     outputDisplay.scrollTop = outputDisplay.scrollHeight;
                 }
             };
-            
+
             processItem(0);
         });
     });

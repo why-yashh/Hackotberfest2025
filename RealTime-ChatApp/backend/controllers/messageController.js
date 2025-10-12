@@ -35,7 +35,7 @@ export const sendMessage = async (req, res) => {
     return res.status(201).json({
       newMessage
     })
-   
+
 
   }
   catch (error) {
@@ -46,8 +46,8 @@ export const sendMessage = async (req, res) => {
 export const getMessage = async (req, res) => {
   try {
     const recieverId = req.params.id;
-    const senderId = req.id; 
-    
+    const senderId = req.id;
+
     // Check if both senderId and recieverId are present
     if (!senderId || !recieverId) {
       return res.status(400).json({ message: "Sender or Receiver ID missing." });
@@ -57,7 +57,7 @@ export const getMessage = async (req, res) => {
       participants: { $all: [senderId, recieverId] },
     }).populate("messages");
 
-    
+
     return res.status(200).json(conversation?.messages);
   } catch (error) {
     console.log("Error fetching conversation:", error);

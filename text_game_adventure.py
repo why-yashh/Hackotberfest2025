@@ -211,4 +211,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     game = AdventureGame(root)
     root.mainloop()
-

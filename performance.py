@@ -3,6 +3,7 @@
 import numpy as np
 import pandas as pd
 
+
 def create_drawdowns(equity_curve):
     hwm = [0]
     eq_idx = equity_curve.index
@@ -10,9 +11,9 @@ def create_drawdowns(equity_curve):
     duration = pd.Series(index=eq_idx)
 
     for t in range(1, len(eq_idx)):
-        hwm.append(max(hwm[t-1], equity_curve[t]))
-        drawdown[t] = (hwm[t] - equity_curve[t])
-        duration[t] = 0 if drawdown[t] == 0 else duration[t-1] + 1
+        hwm.append(max(hwm[t - 1], equity_curve[t]))
+        drawdown[t] = hwm[t] - equity_curve[t]
+        duration[t] = 0 if drawdown[t] == 0 else duration[t - 1] + 1
 
     return drawdown, drawdown.max(), duration.max()
 
@@ -24,7 +25,7 @@ def performance_metrics(equity_curve):
     drawdown, max_dd, dd_duration = create_drawdowns(equity_curve)
 
     return {
-        'Total Return': round(total_return * 100, 2),
-        'Sharpe Ratio': round(sharpe_ratio, 2),
-        'Max Drawdown': round(max_dd * 100, 2)
+        "Total Return": round(total_return * 100, 2),
+        "Sharpe Ratio": round(sharpe_ratio, 2),
+        "Max Drawdown": round(max_dd * 100, 2),
     }

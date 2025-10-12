@@ -1,6 +1,7 @@
 import time
 import winsound  # This is specific to Windows for sound; replace with another method for different OS.
 
+
 def set_alarm(alarm_time):
     while True:
         current_time = time.strftime("%H:%M:%S")
@@ -11,6 +12,7 @@ def set_alarm(alarm_time):
             winsound.Beep(1000, 1000)  # Frequency (Hz), Duration (ms)
             break
         time.sleep(1)  # Check every second
+
 
 def main():
     print("Welcome to the Alarm Clock!")
@@ -25,6 +27,7 @@ def main():
 
     print(f"Alarm set for {alarm_time}.")
     set_alarm(alarm_time)
+
 
 if __name__ == "__main__":
     main()

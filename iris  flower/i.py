@@ -14,10 +14,12 @@ y = iris.target
 
 # Create a DataFrame with the input features and target variable
 df = pd.DataFrame(X, columns=iris.feature_names)
-df['species'] = y
+df["species"] = y
 
 # Split dataset into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(df[iris.feature_names], df['species'], test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    df[iris.feature_names], df["species"], test_size=0.3, random_state=42
+)
 
 # Create and train the model
 classifier = DecisionTreeClassifier(random_state=42)
@@ -30,6 +32,11 @@ print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
 print("Classification Report:\n", classification_report(y_test, y_pred))
 
 # Visualize the decision tree
-plt.figure(figsize=(10,10))
-tree.plot_tree(classifier, filled=True, feature_names=iris.feature_names, class_names=iris.target_names)
+plt.figure(figsize=(10, 10))
+tree.plot_tree(
+    classifier,
+    filled=True,
+    feature_names=iris.feature_names,
+    class_names=iris.target_names,
+)
 plt.show()

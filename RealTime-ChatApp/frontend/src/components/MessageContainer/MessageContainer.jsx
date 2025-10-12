@@ -35,7 +35,7 @@ const MessageContainer = () => {
             {/* <div className=" divider my-0 py-0 h-1"></div> */}
           </div>
         </div>
-      </div>  
+      </div>
       <Messages/>
       <SendInput/>
     </div>

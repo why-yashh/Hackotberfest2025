@@ -35,8 +35,8 @@
     <style>
         /* Base styles for the "Astro-Bot" theme */
         body {
-            background-color: #0f172a; 
-            color: #fef3c7; 
+            background-color: #0f172a;
+            color: #fef3c7;
             font-family: 'Orbitron', sans-serif;
             user-select: none;
             touch-action: manipulation;
@@ -55,7 +55,7 @@
             margin: 1rem auto;
             cursor: pointer; /* Indicates interaction */
         }
-        
+
         /* Button styling */
         .game-button {
             font-size: 1.25rem;
@@ -100,7 +100,7 @@
 
         <!-- Game Canvas Area -->
         <canvas id="game-canvas"></canvas>
-        
+
         <!-- Controls -->
         <div class="flex space-x-4 mt-6">
             <button id="start-button" class="game-button rounded-full">
@@ -128,7 +128,7 @@
             <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-4 border-jumper-glow max-w-md w-full mx-4" onclick="event.stopPropagation()">
                 <h2 id="modal-title" class="text-3xl font-bold mb-4 text-jumper-glow">Welcome, Astro-Bot!</h2>
                 <p id="modal-message" class="text-star-light mb-6 text-lg">Click or tap the screen to jump onto the moving platforms. Don't fall to the bottom! Use the mouse/touch to control your jump.</p>
-                
+
                 <button class="game-button rounded-lg w-full" onclick="hideMessage()">Understood</button>
             </div>
         </div>
@@ -144,12 +144,12 @@
         // Global Game Variables
         const canvas = document.getElementById('game-canvas');
         const ctx = canvas.getContext('2d');
-        
+
         let highscore = 0;
         let score = 0;
         let isGameRunning = false;
         let animationFrameId;
-        
+
         // Game Constants
         const GRAVITY = 0.5;
         const JUMP_FORCE = -10;
@@ -177,7 +177,7 @@
 
         // --- Tone.js Setup for simple arcade sounds ---
         let jumpSynth, gameOverSynth;
-        
+
         function initAudio() {
             try {
                 if (!jumpSynth) {
@@ -188,7 +188,7 @@
                         oscillator: { type: "triangle" },
                         envelope: { attack: 0.005, decay: 0.1, sustain: 0, release: 0.1 }
                     });
-                    
+
                     // Synth for game over
                     gameOverSynth = new Tone.NoiseSynth({
                         noise: { type: 'brown' },
@@ -221,12 +221,12 @@
             canvas.height = 0.6 * window.innerHeight;
             if (canvas.height < 400) canvas.height = 400; // Minimum height
         }
-        
+
         /** Draws the player (Astro-Bot) as a square */
         function drawPlayer() {
             ctx.fillStyle = player.color;
             ctx.fillRect(player.x, player.y - cameraY, player.width, player.height);
-            
+
             // Draw a little antenna on top
             ctx.fillStyle = '#60a5fa'; // Blue
             ctx.fillRect(player.x + player.width / 2 - 2, player.y - 10 - cameraY, 4, 10);
@@ -239,7 +239,7 @@
                 ctx.fillRect(p.x, p.y - cameraY, p.width, p.height);
             });
         }
-        
+
         /** Draws the background stars */
         function drawStars() {
             ctx.fillStyle = '#fef3c7'; // Star Light
@@ -251,13 +251,13 @@
                 ctx.fillRect(x, y, 1, 1);
             }
         }
-        
+
         /** Renders all game elements */
         function drawGame() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#1e293b';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
+
             drawStars();
             drawPlatforms();
             drawPlayer();
@@ -281,14 +281,14 @@
             platforms = [];
             // Create the starting platform at the bottom
             platforms.push({ x: canvas.width / 2 - 50, y: canvas.height - 30, width: 100, height: PLATFORM_HEIGHT, vx: 0 });
-            
+
             // Generate initial platforms above the start platform
             for (let i = 1; i < PLATFORM_COUNT; i++) {
                 const y = canvas.height - 30 - (i * PLATFORM_SPAWN_GAP) - (Math.random() * PLATFORM_SPAWN_GAP / 2);
                 platforms.push(createPlatform(y, 0.5)); // Start with slow movement
             }
         }
-        
+
         /** Updates all platforms' positions and handles recycling */
         function updatePlatforms() {
             // Check if player is above the halfway point of the screen
@@ -311,13 +311,13 @@
                 if (p.y - cameraY > canvas.height + 50) {
                     // Find the highest platform currently on screen
                     const highestY = platforms.reduce((maxY, plat) => Math.min(maxY, plat.y), canvas.height);
-                    
+
                     // Reposition platform far above the highest one
                     p.y = highestY - PLATFORM_SPAWN_GAP - (Math.random() * PLATFORM_SPAWN_GAP / 2);
-                    
+
                     // Increase speed slightly with score
-                    let newSpeed = Math.min(3, 0.5 + score / 3000); 
-                    
+                    let newSpeed = Math.min(3, 0.5 + score / 3000);
+
                     // Randomize width and direction
                     p.width = Math.random() * (PLATFORM_WIDTH_MAX - PLATFORM_WIDTH_MIN) + PLATFORM_WIDTH_MIN;
                     p.x = Math.random() * (canvas.width - p.width);
@@ -325,13 +325,13 @@
                 }
             });
         }
-        
+
         /** Updates the player's position, velocity, and handles platform collision */
         function updatePlayer() {
             // Apply gravity
             player.vy += GRAVITY;
             player.y += player.vy;
-            
+
             // Check horizontal bounds (wrap around the screen)
             if (player.x + player.width < 0) {
                 player.x = canvas.width - 1;
@@ -349,15 +349,15 @@
             // Platform collision detection
             platforms.forEach(p => {
                 // Check if player is falling and is in the vertical range of the platform
-                if (player.vy > 0 && 
-                    player.x < p.x + p.width && 
-                    player.x + player.width > p.x && 
-                    player.y + player.height > p.y && 
+                if (player.vy > 0 &&
+                    player.x < p.x + p.width &&
+                    player.x + player.width > p.x &&
+                    player.y + player.height > p.y &&
                     player.y + player.height < p.y + p.height) {
-                    
+
                     // Collision detected, snap player to platform top and bounce
                     player.y = p.y - player.height;
-                    player.vy = JUMP_FORCE; 
+                    player.vy = JUMP_FORCE;
                     playJumpSound();
                 }
             });
@@ -370,27 +370,27 @@
             // 1. Update positions and check collisions
             updatePlayer();
             updatePlatforms();
-            
+
             // 2. Draw the new state
             drawGame();
-            
+
             // 3. Update score display
             updateScoreDisplay();
 
             // 4. Request next frame
             animationFrameId = requestAnimationFrame(gameLoop);
         }
-        
+
         // --- Input Handling ---
 
         function handleJumpInput(event) {
             if (!isGameRunning) return;
-            // The bot automatically jumps upon collision (simulating an auto-jumper), 
+            // The bot automatically jumps upon collision (simulating an auto-jumper),
             // but we can add a horizontal move on click if desired.
-            
+
             // For simplicity, let's make a click anywhere on the canvas trigger a horizontal move/nudge
             const clickX = event.clientX - canvas.getBoundingClientRect().left;
-            
+
             // Nudge the bot towards the click location if far away
             if (Math.abs(clickX - (player.x + player.width / 2)) > 50) {
                 player.x += (clickX > player.x + player.width / 2 ? 10 : -10);
@@ -420,13 +420,13 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
-        
+
         function endGame(title, message) {
             if (!isGameRunning) return;
 
             isGameRunning = false;
             cancelAnimationFrame(animationFrameId);
-            
+
             showMessage(title, message);
 
             // Update Start/Stop buttons
@@ -439,21 +439,21 @@
         function startGame() {
             // Initialize audio on first click interaction
             initAudio();
-            
+
             // Reset state
             score = 0;
             cameraY = 0;
             isGameRunning = true;
-            
+
             // Reset player position to start platform
             player.x = canvas.width / 2 - player.width / 2;
             player.y = canvas.height - 30 - player.height;
             player.vy = 0;
-            
+
             initPlatforms();
             updateScoreDisplay();
             hideMessage();
-            
+
             // Update Start/Stop buttons
             document.getElementById('start-button').disabled = true;
             document.getElementById('start-button').textContent = "JUMPING...";
@@ -468,15 +468,15 @@
 
         window.onload = function() {
             resizeCanvas();
-            
+
             // Event listeners
             document.getElementById('start-button').addEventListener('click', startGame);
             document.getElementById('stop-button').addEventListener('click', () => endGame("MISSION ABORTED", `You manually aborted the mission. Final Score: ${Math.floor(score)}`));
-            
+
             // Canvas interaction for nudging the bot
             canvas.addEventListener('click', handleJumpInput);
             canvas.addEventListener('touchstart', (e) => { e.preventDefault(); handleJumpInput(e.touches[0]); });
-            
+
             window.addEventListener('resize', resizeCanvas); // Make canvas responsive
 
             // Draw initial state and show welcome message
