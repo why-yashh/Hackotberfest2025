@@ -65,7 +65,7 @@ Once you have cloned the `Hacktoberfest-2025` repository in Github, move to that
 
 ```sh
 # This will change directory to a folder Hacktoberfest-2025
-$ cd Hackotberfest2024
+$ cd Hackotberfest2025
 ```
 
 Move to this folder for all other commands.
@@ -83,7 +83,7 @@ origin  https://github.com/Your_Username/Hacktoberfest-2025.git (push)
 Now, let's add a reference to the original [Hacktoberfest-2025]https://github.com/Open-Source-you/Hackotberfest2022) repository using
 
 ```sh
-$ git remote add upstream https://github.com/Open-Source-you/Hackotberfest2024.git
+$ git remote add upstream https://github.com/Open-Source-you/Hackotberfest2025.git
 ```
 
 > This adds a new remote named ***upstream***.
@@ -177,3 +177,5 @@ We love to have `articles` and `codes` in different languages and the `bettermen
 Please discuss it with us first by creating a new issue.
 
 :tada: :confetti_ball: :smiley: _**Happy Contributing**_ :smiley: :confetti_ball: :tada:
+
+
