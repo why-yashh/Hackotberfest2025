@@ -1,4 +1,13 @@
-# Simple Calculator
+import math
+import cmath
+import statistics
+import re
+from typing import Union, List, Tuple, Optional
+from dataclasses import dataclass
+from enum import Enum
+import numpy as np
+from fractions import Fraction
+from decimal import Decimal, getcontext
 
 
 def add(x, y):
@@ -56,4 +65,6 @@ def calculator():
 
 
 if __name__ == "__main__":
-    calculator()
+    # Install numpy: pip install numpy
+    calculator_ui = CalculatorUI()
+    calculator_ui.run()
