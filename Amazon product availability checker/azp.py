@@ -1,11 +1,12 @@
 # Python script for Amazon product availability checker
 # importing libraries
-from lxml import html
-import requests
-from time import sleep
-import time
-import schedule
 import smtplib
+import time
+from time import sleep
+
+import requests
+import schedule
+from lxml import html
 
 # Email id for who want to check availability
 receiver_email_id = "EMAIL_ID_OF_USER"

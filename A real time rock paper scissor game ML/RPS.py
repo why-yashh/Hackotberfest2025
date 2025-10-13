@@ -5,11 +5,11 @@
 # The main player function that combines all these elements
 
 import random
-import tensorflow as tf
+
 import keras
-from keras import layers
-from keras import optimizers
 import numpy as np
+import tensorflow as tf
+from keras import layers, optimizers
 
 tf.keras.utils.disable_interactive_logging()
 

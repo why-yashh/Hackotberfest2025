@@ -9,15 +9,14 @@ Requirements: pandas, numpy, matplotlib
 
 """
 
-from io import BytesIO
 import base64
 import math
+from io import BytesIO
 from typing import Dict
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-
 
 # ---------------------- Metrics helpers ----------------------
 

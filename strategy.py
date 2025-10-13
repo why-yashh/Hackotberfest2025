@@ -1,6 +1,7 @@
 # strategy.py
 
 import pandas as pd
+
 from events import SignalEvent
 
 

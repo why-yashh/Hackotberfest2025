@@ -1,11 +1,11 @@
 # Import necessary libraries
-import pandas as pd
-from sklearn.datasets import load_iris
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-from sklearn import tree
 import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn import tree
+from sklearn.datasets import load_iris
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
 
 # Load the dataset
 iris = load_iris()

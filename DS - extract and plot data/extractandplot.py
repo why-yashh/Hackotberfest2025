@@ -1,8 +1,8 @@
 # author: seema kumari patel
 # Implementation of data extraction and plotting using pandas and matplotlib
 
-import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # Read the CSV file
 df = pd.read_csv("data.csv")

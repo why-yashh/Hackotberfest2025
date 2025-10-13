@@ -1,6 +1,7 @@
 import unittest
-from RPS_game import play, mrugesh, abbey, quincy, kris
+
 from RPS import player
+from RPS_game import abbey, kris, mrugesh, play, quincy
 
 
 class UnitTests(unittest.TestCase):

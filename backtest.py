@@ -1,7 +1,8 @@
 # backtest.py
 
 import queue
-from events import MarketEvent, SignalEvent, OrderEvent, FillEvent
+
+from events import FillEvent, MarketEvent, OrderEvent, SignalEvent
 
 
 class Backtest:

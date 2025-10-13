@@ -1,6 +1,7 @@
+import random
 import tkinter as tk
 from tkinter import messagebox
-import random
+
 
 class AdventureGame:
     def __init__(self, master):

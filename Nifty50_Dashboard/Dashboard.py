@@ -1,15 +1,16 @@
-import yfinance as yf
-import pandas as pd
-import numpy as np
+from datetime import datetime, timedelta
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
 import seaborn as sns
 import streamlit as st
+import yfinance as yf
 from scipy.spatial.distance import pdist, squareform
-from sklearn.manifold import MDS
 from sklearn.cluster import KMeans
-import plotly.graph_objects as go
+from sklearn.manifold import MDS
 from statsmodels.graphics.tsaplots import plot_acf
-from datetime import datetime, timedelta
 
 # Streamlit setup
 st.set_page_config(page_title="Nifty 50 Financial Dashboard", layout="wide")

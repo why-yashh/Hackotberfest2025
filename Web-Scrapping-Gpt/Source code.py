@@ -1,19 +1,20 @@
-import requests
-from bs4 import BeautifulSoup
-import nltk
-from nltk.sentiment import SentimentIntensityAnalyzer
-from transformers import pipeline
 import re
-from tabulate import tabulate
-import pandas as pd
-import numpy as np
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
-import matplotlib.pyplot as plt
-import seaborn as sns
 import urllib.parse
+
+import matplotlib.pyplot as plt
+import nltk
+import numpy as np
+import pandas as pd
+import requests
+import seaborn as sns
+from bs4 import BeautifulSoup
+from nltk.sentiment import SentimentIntensityAnalyzer
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from tabulate import tabulate
 from tqdm import tqdm
+from transformers import pipeline
 
 nltk.download("punkt", quiet=True)
 nltk.download("vader_lexicon", quiet=True)

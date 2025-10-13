@@ -1,8 +1,9 @@
 import time
+
 from .config import load_config
+from .executor import Executor
 from .mock_data import MockMarket
 from .strategy import placeholder_strategy
-from .executor import Executor
 
 
 def main():

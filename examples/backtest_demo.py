@@ -1,8 +1,9 @@
 # examples/demo_backtest_report.py
 
-from reports.backtest_report_generator import build_report_html
-import pandas as pd
 import numpy as np
+import pandas as pd
+
+from reports.backtest_report_generator import build_report_html
 
 # Simulate a simple backtest
 days = pd.date_range("2020-01-01", periods=250)

@@ -177,16 +177,25 @@ We love to have `articles` and `codes` in different languages and the `bettermen
 Please discuss it with us first by creating a new issue.
 
 :tada: :confetti_ball: :smiley: _**Happy Contributing**_ :smiley: :confetti_ball: :tada:
-## Development Setup
 
-### Installing Pre-commit Hooks
+## 🤝 Contributing - Code Quality (Optional)
 
-This project uses pre-commit hooks to maintain code quality. Follow these steps to set up pre-commit on your local machine:
+### For New Contributors
 
-#### 1. Install pre-commit
+Our CI runs code quality checks but **won't block your PR**. These are informational only:
+- ✅ Your PR will be reviewed based on functionality
+- ℹ️ Code quality suggestions are helpful but not required
+- 🎯 We're gradually improving code quality over time
+
+### Optional: Install Pre-commit Hooks (Recommended)
+
+If you want to automatically format your code:
 ```bash
-# Using pip
+# Install pre-commit
 pip install pre-commit
 
-# Or install all dev dependencies
-pip install -r requirements-dev.txt
+# Install the hooks (one-time setup)
+pre-commit install
+
+# Now hooks run automatically on commit
+git commit -m "your message"
