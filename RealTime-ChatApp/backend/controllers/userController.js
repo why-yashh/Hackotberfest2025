@@ -21,7 +21,7 @@ import jwt from "jsonwebtoken"
     const  maleProfilePhoto = `https://avatar.iran.liara.run/public/boy?username=${username}`
     const  femaleProfilePhoto = `https://avatar.iran.liara.run/public/girl?username=${username}`
     await User.create({
-      fullName , 
+      fullName ,
       username ,
       password : hashedPassword ,
       profilePhoto : gender === "male" ? maleProfilePhoto : femaleProfilePhoto ,
@@ -70,7 +70,7 @@ export const login = async (req, res)=>{
     profilePhoto:user.profilePhoto,
     message:"Login Succesful"
     })
-   
+
   }
   catch(error){
     console.log(error);
@@ -86,7 +86,7 @@ export const logout =(req,res)=>{
    })
   }
 catch(error){
-  console.log(error);  
+  console.log(error);
 }
 }
 export const getOtherUsers = async (req,res) =>{
@@ -98,6 +98,6 @@ return res.status(200).json(otherUsers)
  }
   catch(error){
     console.log(error);
-    
+
   }
 }

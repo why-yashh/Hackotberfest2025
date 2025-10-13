@@ -3,11 +3,11 @@
     margin:0;
     padding:0;
     box-sizing: border-box;
-    
+
 }
 body {
   background-color: #0d1b2a;
-  color: white;               
+  color: white;
 }
 .logo{
     margin:1px;
@@ -16,7 +16,7 @@ body {
 }
 .ref{
     display: flex;
-    justify-content: space-evenly; 
+    justify-content: space-evenly;
 }
 .navbar{
   display: flex;
@@ -40,7 +40,7 @@ body {
     text-decoration:none;
     color:white;
     margin-right: 2px;
-    
+
 }
 .Bghs{
     background-image: url("Image Resources/Damn.jpg");
@@ -57,7 +57,7 @@ body {
 align-items: center;
 justify-content: center;
 display: flex;
-background-color: rgba(34, 47, 61, 0.4); 
+background-color: rgba(34, 47, 61, 0.4);
 width: 700px;
 height: 325px;;
 
@@ -78,7 +78,7 @@ height: 325px;;
 }
 .info{
     text-align: center;
-    
+
 }
 .boxes img{
     width: 245px;
@@ -119,8 +119,8 @@ border-radius: 10px;
     align-items:center;
     color: azure;
     background-color:#03071e;
-    list-style-type: disc;  
-    padding-left: 40px;    
+    list-style-type: disc;
+    padding-left: 40px;
     margin: 30px auto;
     max-width: 700px;
 }

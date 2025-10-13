@@ -13,13 +13,13 @@ def longest_common_subsequence(text1: str, text2: str) -> int:
 
     return dp[m][n]
 
+
 if __name__ == "__main__":
     string1 = input("Enter String 1: ")
     string2 = input("Enter String 2: ")
-    
+
     lcs_length = longest_common_subsequence(string1, string2)
-    
+
     print(f"\nString 1: '{string1}'")
     print(f"String 2: '{string2}'")
     print(f"Length of the Longest Common Subsequence: {lcs_length}")
-

@@ -1,6 +1,7 @@
+import random
 import tkinter as tk
 from tkinter import messagebox
-import random
+
 
 class AdventureGame:
     def __init__(self, master):
@@ -211,4 +212,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     game = AdventureGame(root)
     root.mainloop()
-

@@ -1,5 +1,6 @@
 import random
 
+
 class AIDetective:
     def __init__(self):
         self.case_solved = False
@@ -14,7 +15,8 @@ class AIDetective:
         }
 
 ```java
-import java.util.*;
+import java.util.*
+
 
 class Main {
     public static void main(String[] args) {
@@ -54,9 +56,9 @@ class Hang {
         System.out.println();
     }
 
- 
 
-      
+
+
 
 
 

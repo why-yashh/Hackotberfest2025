@@ -1,5 +1,6 @@
 import random
 
+
 def get_computer_choice():
     choices = ['rock', 'paper', 'scissors']
     return random.choice(choices)
@@ -25,11 +26,11 @@ def play_game():
     while True:
         user_choice = get_user_choice()
         computer_choice = get_computer_choice()
-        
+
         print(f"You chose: {user_choice}")
         print(f"Computer chose: {computer_choice}")
-        
+
         result = determine_winner(user_choice, computer_choice)
         print(result)
-        
-        play_again = 
+
+        play_again =

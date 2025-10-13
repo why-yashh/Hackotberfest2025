@@ -292,7 +292,7 @@ header .master_play .vol{
   width: 100px;
   height: 2px;
   margin-left: 50px;
- background: rgb(105, 105, 170,.1); 
+ background: rgb(105, 105, 170,.1);
 }
 header .master_play .vol .bi{
 position: absolute;
@@ -440,7 +440,7 @@ header .master_play .vol input{
      /* border: 1px solid #fff; */
      padding-top: 20px;
  }
- 
+
  header .song_side .content h1{
     font-size: 25px;
     font-weight: 600;

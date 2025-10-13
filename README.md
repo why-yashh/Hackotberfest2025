@@ -38,7 +38,7 @@ flowchart LR
     branch-->Edit[Edit file]
     Edit-->commit[Commit the changes]
     commit -->|Finally|creatpr((Create a Pull Request))
-    
+
  ```
 
 ### 1. Star The Repository :star2:
@@ -178,4 +178,24 @@ Please discuss it with us first by creating a new issue.
 
 :tada: :confetti_ball: :smiley: _**Happy Contributing**_ :smiley: :confetti_ball: :tada:
 
+## 🤝 Contributing - Code Quality (Optional)
 
+### For New Contributors
+
+Our CI runs code quality checks but **won't block your PR**. These are informational only:
+- ✅ Your PR will be reviewed based on functionality
+- ℹ️ Code quality suggestions are helpful but not required
+- 🎯 We're gradually improving code quality over time
+
+### Optional: Install Pre-commit Hooks (Recommended)
+
+If you want to automatically format your code:
+```bash
+# Install pre-commit
+pip install pre-commit
+
+# Install the hooks (one-time setup)
+pre-commit install
+
+# Now hooks run automatically on commit
+git commit -m "your message"

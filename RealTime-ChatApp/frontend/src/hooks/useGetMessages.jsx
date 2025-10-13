@@ -9,7 +9,7 @@ const useGetMessages = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        
+
         if (selectedUser?._id) {
           // Ensure selectedUser has a valid ID before fetching
           const selectedUserId = selectedUser._id;

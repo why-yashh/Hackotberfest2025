@@ -1,6 +1,6 @@
 const music = new Audio('vande.mp3');
 
-// create Array 
+// create Array
 
 const songs = [
     {
@@ -15,7 +15,7 @@ const songs = [
         <div class="subtitle">Alan Walker</div>`,
         poster: "img/2.jpg"
     },
-    // all object type 
+    // all object type
     {
         id:"3",
         songName: `Cartoon - On & On <br><div class="subtitle"> Daniel Levi</div>`,
@@ -250,7 +250,7 @@ back.addEventListener('click', ()=>{
     document.getElementById(`${index}`).classList.add('bi-pause-fill');
     makeAllBackgrounds();
     Array.from(document.getElementsByClassName('songItem'))[`${index-1}`].style.background = "rgb(105, 105, 170, .1)";
-    
+
 })
 next.addEventListener('click', ()=>{
     index -= 0;
@@ -275,7 +275,7 @@ next.addEventListener('click', ()=>{
     document.getElementById(`${index}`).classList.add('bi-pause-fill');
     makeAllBackgrounds();
     Array.from(document.getElementsByClassName('songItem'))[`${index-1}`].style.background = "rgb(105, 105, 170, .1)";
-    
+
 })
 
 

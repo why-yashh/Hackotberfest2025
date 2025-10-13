@@ -35,8 +35,8 @@
     <style>
         /* Base styles for the "Circuit Solver" theme */
         body {
-            background-color: #0f172a; 
-            color: #fef3c7; 
+            background-color: #0f172a;
+            color: #fef3c7;
             font-family: 'Orbitron', sans-serif;
             user-select: none;
             touch-action: manipulation;
@@ -140,7 +140,7 @@
         <div id="circuit-board" class="rounded-xl mx-auto">
             <!-- Nodes injected by JS -->
         </div>
-        
+
         <!-- Controls -->
         <div class="flex space-x-4 mt-6">
             <button id="start-button" class="game-button rounded-full">
@@ -156,7 +156,7 @@
             <div class="bg-gray-800 p-8 rounded-xl shadow-2xl border-4 border-circuit-glow max-w-md w-full mx-4" onclick="event.stopPropagation()">
                 <h2 id="modal-title" class="text-3xl font-bold mb-4 text-circuit-glow">System Check</h2>
                 <p id="modal-message" class="text-star-light mb-6 text-lg">Watch the nodes light up and listen to their tones. Then, click the nodes in the exact same order. The sequence gets longer every round!</p>
-                
+
                 <button class="game-button rounded-lg w-full" onclick="hideMessage()">Initialize</button>
             </div>
         </div>
@@ -179,15 +179,15 @@
         let playerSequenceIndex = 0; // Tracks the current step the player needs to click
         let isGameRunning = false;
         let isPlayerTurn = false;
-        
+
         // Timing constants (in milliseconds)
-        const FLASH_DURATION = 350; 
+        const FLASH_DURATION = 350;
         const PAUSE_DURATION = 150;
         const START_DELAY = 1000;
 
         // --- Tone.js Setup for simple arcade sounds ---
         let nodeSynth, errorSynth;
-        
+
         function initAudio() {
             try {
                 if (!nodeSynth) {
@@ -197,7 +197,7 @@
                         oscillator: { type: "square" },
                         envelope: { attack: 0.01, decay: 0.1, sustain: 0, release: 0.1 }
                     }).toDestination();
-                    
+
                     // Synth for error
                     errorSynth = new Tone.NoiseSynth({
                         noise: { type: 'white' },
@@ -242,7 +242,7 @@
         function updateDisplay() {
             document.getElementById('level-display').textContent = currentLevel;
         }
-        
+
         /** Enables/Disables user interaction with the nodes */
         function toggleNodes(enable) {
             document.querySelectorAll('.circuit-node').forEach(cell => {
@@ -264,14 +264,14 @@
         /** Iterates through and flashes the current sequence for the player to memorize */
         function playSequence(index = 0) {
             if (!isGameRunning) return;
-            
+
             const nodeIndex = sequence[index];
             const node = document.querySelector(`.circuit-node[data-index="${nodeIndex}"]`);
 
             // 1. Flash On
             node.classList.add('node-flash');
             playNodeSound(nodeIndex);
-            
+
             // 2. Flash Off and Move to Next Node/Player Turn
             setTimeout(() => {
                 node.classList.remove('node-flash');
@@ -285,21 +285,21 @@
                 }
             }, FLASH_DURATION);
         }
-        
+
         /** Sets up state for the player to input their sequence */
         function startPlayerTurn() {
             if (!isGameRunning) return;
             isPlayerTurn = true;
             playerSequenceIndex = 0;
             toggleNodes(true);
-            
+
             document.getElementById('start-button').textContent = "YOUR TURN";
             document.getElementById('start-button').disabled = true;
         }
 
         function handleNodeClick(event) {
             if (!isGameRunning || !isPlayerTurn) return;
-            
+
             const clickedIndex = parseInt(event.currentTarget.dataset.index);
             const expectedIndex = sequence[playerSequenceIndex];
             const node = event.currentTarget;
@@ -323,7 +323,7 @@
                     toggleNodes(false);
                     setTimeout(startLevel, START_DELAY); // Start next level
                 }
-            } 
+            }
             // 3. Incorrect Click (Game Over)
             else {
                 playErrorSound();
@@ -351,7 +351,7 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
-        
+
         // --- Game Flow Functions ---
 
         function endGame(title, message) {
@@ -360,7 +360,7 @@
             isGameRunning = false;
             isPlayerTurn = false;
             toggleNodes(false);
-            
+
             showMessage(title, message);
 
             // Update Start/Stop buttons
@@ -372,16 +372,16 @@
 
         function startLevel() {
             if (!isGameRunning) return;
-            
+
             currentLevel++;
             updateDisplay();
             toggleNodes(false); // Disable interaction during computer playback
-            
+
             // 1. Add new step to the sequence
             addToSequence();
-            
+
             document.getElementById('start-button').textContent = `WATCH SEQUENCE ${currentLevel}`;
-            
+
             // 2. Play the sequence after a short delay
             setTimeout(playSequence, START_DELAY / 2);
         }
@@ -397,7 +397,7 @@
             isPlayerTurn = false;
             updateDisplay();
             hideMessage();
-            
+
             // Update Start/Stop buttons
             document.getElementById('stop-button').classList.remove('hidden');
             document.getElementById('stop-button').disabled = false;
@@ -411,11 +411,11 @@
 
         window.onload = function() {
             createGrid();
-            
+
             // Event listeners
             document.getElementById('start-button').addEventListener('click', startGame);
             document.getElementById('stop-button').addEventListener('click', () => endGame("MISSION ABORTED", `You manually aborted the sequence. Final Level: ${currentLevel}`));
-            
+
             // Draw initial state and show welcome message
             showMessage("System Check", "Watch the nodes light up and listen to their tones. Then, click the nodes in the exact same order. The sequence gets longer every round!");
         };

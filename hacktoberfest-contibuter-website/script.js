@@ -40,26 +40,26 @@ async function initializeApp() {
     try {
         // Show loading screen
         showLoadingScreen();
-        
+
         // Initialize animations
         initializeAnimations();
-        
+
         // Setup event listeners
         setupEventListeners();
-        
+
         // Generate floating cards
         generateFloatingCards();
-        
+
         // Fetch initial data
         await fetchContributors();
         await updateStats();
-        
+
         // Hide loading screen
         hideLoadingScreen();
-        
+
         // Initialize scroll animations
         initializeScrollAnimations();
-        
+
     } catch (error) {
         console.error('Error initializing app:', error);
         hideLoadingScreen();
@@ -82,7 +82,7 @@ function initializeAnimations() {
     // Hero title animation
     const titleLines = document.querySelectorAll('.title-line');
     gsap.set(titleLines, { opacity: 0, y: 50 });
-    
+
     gsap.to(titleLines, {
         opacity: 1,
         y: 0,
@@ -91,7 +91,7 @@ function initializeAnimations() {
         ease: 'power3.out',
         delay: 2
     });
-    
+
     // Hero description and buttons animation
     gsap.set('.hero-description, .hero-buttons', { opacity: 0, y: 30 });
     gsap.to('.hero-description, .hero-buttons', {
@@ -117,7 +117,7 @@ function initializeScrollAnimations() {
             }
         }
     });
-    
+
     // Stats animation
     gsap.fromTo('.stat-card', {
         opacity: 0,
@@ -134,7 +134,7 @@ function initializeScrollAnimations() {
             end: 'bottom 20%'
         }
     });
-    
+
     // Section titles animation
     gsap.fromTo('.section-title', {
         opacity: 0,
@@ -156,47 +156,47 @@ function initializeScrollAnimations() {
 function setupEventListeners() {
     // Navigation
     elements.navToggle.addEventListener('click', toggleMobileMenu);
-    
+
     // Smooth scrolling for navigation links
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', handleNavClick);
     });
-    
+
     // Hero buttons
     elements.exploreBtn.addEventListener('click', () => {
         document.getElementById('contributors').scrollIntoView({ behavior: 'smooth' });
     });
-    
+
     elements.addYourselfBtn.addEventListener('click', () => {
         openModal();
     });
-    
+
     // Search functionality
     elements.searchInput.addEventListener('input', debounce(handleSearch, 300));
-    
+
     // Filter buttons
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', handleFilter);
     });
-    
+
     // Load more button
     elements.loadMoreBtn.addEventListener('click', loadMoreContributors);
-    
+
     // Modal controls
     elements.modalClose.addEventListener('click', closeModal);
     elements.cancelBtn.addEventListener('click', closeModal);
     elements.addContributorModal.addEventListener('click', (e) => {
         if (e.target === elements.addContributorModal) closeModal();
     });
-    
+
     // Form submission
     elements.contributorForm.addEventListener('submit', handleFormSubmit);
-    
+
     // Leaderboard tabs
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', handleTabClick);
     });
-    
+
     // Window events
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleResize);
@@ -212,14 +212,14 @@ function handleNavClick(e) {
     e.preventDefault();
     const targetId = e.target.getAttribute('href');
     const targetElement = document.querySelector(targetId);
-    
+
     if (targetElement) {
         targetElement.scrollIntoView({ behavior: 'smooth' });
-        
+
         // Close mobile menu if open
         elements.navMenu.classList.remove('active');
         elements.navToggle.classList.remove('active');
-        
+
         // Update active nav link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
@@ -232,20 +232,20 @@ function handleNavClick(e) {
 function generateFloatingCards() {
     const icons = ['fab fa-github', 'fas fa-code', 'fas fa-star', 'fas fa-code-branch', 'fas fa-users'];
     const container = elements.floatingCards;
-    
+
     icons.forEach((icon, index) => {
         const card = document.createElement('div');
         card.className = 'floating-card';
         card.innerHTML = `<i class="${icon}"></i>`;
-        
+
         // Random positioning
         const x = Math.random() * 80;
         const y = Math.random() * 80;
         card.style.left = `${x}%`;
         card.style.top = `${y}%`;
-        
+
         container.appendChild(card);
-        
+
         // GSAP animation
         gsap.set(card, { opacity: 0, scale: 0 });
         gsap.to(card, {
@@ -263,22 +263,22 @@ async function fetchContributors(page = 1) {
     try {
         isLoading = true;
         updateLoadMoreButton();
-        
+
         const response = await fetch(`${GITHUB_API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/contributors?page=${page}&per_page=12`);
-        
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const data = await response.json();
-        
+
         // Fetch additional user data for each contributor
         const enrichedContributors = await Promise.all(
             data.map(async (contributor) => {
                 try {
                     const userResponse = await fetch(contributor.url);
                     const userData = userResponse.ok ? await userResponse.json() : {};
-                    
+
                     return {
                         ...contributor,
                         name: userData.name || contributor.login,
@@ -302,16 +302,16 @@ async function fetchContributors(page = 1) {
                 }
             })
         );
-        
+
         if (page === 1) {
             contributors = enrichedContributors;
         } else {
             contributors.push(...enrichedContributors);
         }
-        
+
         renderContributors();
         currentPage = page;
-        
+
     } catch (error) {
         console.error('Error fetching contributors:', error);
         showError('Failed to load contributors. Please try again later.');
@@ -326,11 +326,11 @@ async function updateStats() {
         // Fetch repository stats
         const repoResponse = await fetch(`${GITHUB_API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}`);
         const repoData = await repoResponse.json();
-        
+
         // Fetch pull requests
         const prsResponse = await fetch(`${GITHUB_API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/pulls?state=all&per_page=100`);
         const prsData = await prsResponse.json();
-        
+
         // Calculate stats
         const stats = {
             contributors: contributors.length,
@@ -338,10 +338,10 @@ async function updateStats() {
             stars: repoData.stargazers_count || 0,
             countries: new Set(contributors.map(c => c.location).filter(l => l !== 'Unknown')).size
         };
-        
+
         // Animate counter updates
         animateStats(stats);
-        
+
     } catch (error) {
         console.error('Error updating stats:', error);
     }
@@ -349,11 +349,11 @@ async function updateStats() {
 
 function animateStats(stats) {
     const statElements = document.querySelectorAll('.stat-number');
-    
+
     statElements.forEach((element, index) => {
         const targetValue = Object.values(stats)[index];
         const currentValue = parseInt(element.textContent) || 0;
-        
+
         gsap.to({ value: currentValue }, {
             value: targetValue,
             duration: 2,
@@ -368,15 +368,15 @@ function animateStats(stats) {
 // Rendering Functions
 function renderContributors(contributorsToRender = contributors) {
     const grid = elements.contributorsGrid;
-    
+
     if (currentPage === 1 || currentFilter !== 'all') {
         grid.innerHTML = '';
     }
-    
+
     contributorsToRender.forEach((contributor, index) => {
         const card = createContributorCard(contributor);
         grid.appendChild(card);
-        
+
         // Animate card entry
         gsap.set(card, { opacity: 0, y: 30 });
         gsap.to(card, {
@@ -392,7 +392,7 @@ function renderContributors(contributorsToRender = contributors) {
 function createContributorCard(contributor) {
     const card = document.createElement('div');
     card.className = 'contributor-card';
-    
+
     card.innerHTML = `
         <div class="contributor-header">
             <img src="${contributor.avatar_url}" alt="${contributor.name}" class="contributor-avatar">
@@ -423,40 +423,40 @@ function createContributorCard(contributor) {
             ${contributor.location !== 'Unknown' ? `<span class="link-btn"><i class="fas fa-map-marker-alt"></i> ${contributor.location}</span>` : ''}
         </div>
     `;
-    
+
     return card;
 }
 
 // Search and Filter Functions
 function handleSearch(e) {
     const query = e.target.value.toLowerCase().trim();
-    
+
     if (query === '') {
         renderContributors();
         return;
     }
-    
-    const filteredContributors = contributors.filter(contributor => 
+
+    const filteredContributors = contributors.filter(contributor =>
         contributor.name.toLowerCase().includes(query) ||
         contributor.login.toLowerCase().includes(query) ||
         contributor.bio.toLowerCase().includes(query)
     );
-    
+
     renderContributors(filteredContributors);
 }
 
 function handleFilter(e) {
     const filter = e.target.getAttribute('data-filter');
     currentFilter = filter;
-    
+
     // Update active filter button
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     e.target.classList.add('active');
-    
+
     let filteredContributors = [...contributors];
-    
+
     switch (filter) {
         case 'top':
             filteredContributors = contributors
@@ -471,7 +471,7 @@ function handleFilter(e) {
         default:
             filteredContributors = contributors;
     }
-    
+
     renderContributors(filteredContributors);
 }
 
@@ -496,7 +496,7 @@ function updateLoadMoreButton() {
 function openModal() {
     elements.addContributorModal.classList.add('active');
     document.body.style.overflow = 'hidden';
-    
+
     // Focus first input
     setTimeout(() => {
         document.getElementById('githubUsername').focus();
@@ -511,17 +511,17 @@ function closeModal() {
 
 async function handleFormSubmit(e) {
     e.preventDefault();
-    
+
     const formData = new FormData(e.target);
     const username = formData.get('githubUsername') || document.getElementById('githubUsername').value;
     const name = formData.get('contributorName') || document.getElementById('contributorName').value;
     const bio = formData.get('contributorBio') || document.getElementById('contributorBio').value;
-    
+
     if (!username || !name) {
         showError('Please fill in all required fields.');
         return;
     }
-    
+
     try {
         // Simulate adding contributor (in real app, this would be a POST request)
         const newContributor = {
@@ -536,12 +536,12 @@ async function handleFormSubmit(e) {
             location: 'Unknown',
             created_at: new Date().toISOString()
         };
-        
+
         contributors.unshift(newContributor);
         renderContributors();
         closeModal();
         showSuccess('Contributor added successfully!');
-        
+
     } catch (error) {
         console.error('Error adding contributor:', error);
         showError('Failed to add contributor. Please try again.');
@@ -551,20 +551,20 @@ async function handleFormSubmit(e) {
 // Leaderboard Functions
 function handleTabClick(e) {
     const tab = e.target.getAttribute('data-tab');
-    
+
     // Update active tab
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
     });
     e.target.classList.add('active');
-    
+
     renderLeaderboard(tab);
 }
 
 function renderLeaderboard(type = 'commits') {
     const container = elements.leaderboardContent;
     let sortedContributors = [...contributors];
-    
+
     switch (type) {
         case 'commits':
             sortedContributors.sort((a, b) => b.contributions - a.contributions);
@@ -576,19 +576,19 @@ function renderLeaderboard(type = 'commits') {
             sortedContributors.sort((a, b) => b.public_repos - a.public_repos);
             break;
     }
-    
+
     const top10 = sortedContributors.slice(0, 10);
-    
+
     container.innerHTML = top10.map((contributor, index) => {
         const rank = index + 1;
         let rankClass = '';
         if (rank === 1) rankClass = 'gold';
         else if (rank === 2) rankClass = 'silver';
         else if (rank === 3) rankClass = 'bronze';
-        
+
         let scoreValue = contributor.contributions;
         if (type === 'stars') scoreValue = contributor.public_repos;
-        
+
         return `
             <div class="leaderboard-item">
                 <div class="rank ${rankClass}">${rank}</div>
@@ -601,7 +601,7 @@ function renderLeaderboard(type = 'commits') {
             </div>
         `;
     }).join('');
-    
+
     // Animate leaderboard items
     const items = container.querySelectorAll('.leaderboard-item');
     gsap.set(items, { opacity: 0, x: -30 });
@@ -659,12 +659,12 @@ function createNotification(message, type) {
         transition: transform 0.3s ease;
     `;
     notification.textContent = message;
-    
+
     // Animate in
     setTimeout(() => {
         notification.style.transform = 'translateX(0)';
     }, 100);
-    
+
     return notification;
 }
 
@@ -672,7 +672,7 @@ function handleScroll() {
     // Update active navigation link based on scroll position
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
-    
+
     let current = '';
     sections.forEach(section => {
         const sectionTop = section.offsetTop - 100;
@@ -681,7 +681,7 @@ function handleScroll() {
             current = section.getAttribute('id');
         }
     });
-    
+
     navLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href') === `#${current}`) {

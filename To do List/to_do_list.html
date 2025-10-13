@@ -88,11 +88,11 @@
 
   <script>
     const taskList = document.getElementById('taskList');
-    
+
     function addTask() {
       const task = document.getElementById('taskInput').value.trim();
       if (!task) return alert("Please enter a task.");
-      
+
       taskList.innerHTML += `<li>${task} <button onclick="this.parentElement.remove()">Delete</button></li>`;
       document.getElementById('taskInput').value = "";
     }

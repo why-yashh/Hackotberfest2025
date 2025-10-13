@@ -25,11 +25,11 @@ body{
     text-decoration:none;
     color:#fff;
     margin-right: 7px;
-    
+
 }
 .ref{
     display: flex;
-    justify-content: space-evenly; 
+    justify-content: space-evenly;
 }
 .head{
     text-align: center;
@@ -74,7 +74,7 @@ body{
     color: #fff;
     text-align: center;
     align-items: center;
-    height: 90px;    
+    height: 90px;
     background-color:#11001c;
 }
 
@@ -95,7 +95,7 @@ body{
     padding: 2%;
     justify-content: center;
     align-items: center;
-    
+
 }
 
 #popup{
