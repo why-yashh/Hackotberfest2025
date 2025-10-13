@@ -1,46 +1,25 @@
-const colors = ["green", "red", "rgba(133,122,200)", "#f15025"];
+const colors = [
+  { name: "Red", hex: "#FF0000" },
+  { name: "Green", hex: "#00FF00" },
+  { name: "Blue", hex: "#0000FF" },
+  { name: "Yellow", hex: "#FFFF00" },
+  { name: "Purple", hex: "#800080" },
+  { name: "Orange", hex: "#FFA500" },
+  { name: "Pink", hex: "#FFC0CB" },
+  { name: "Teal", hex: "#008080" },
+  { name: "Coral", hex: "#FF7F50" },
+  { name: "Indigo", hex: "#4B0082" }
+];
+
 const btn = document.getElementById("btn");
 const colorDisplay = document.querySelector(".color");
 
-if (!btn || !colorDisplay) {
-  console.error("Required elements not found: #btn or .color");
-} else if (!Array.isArray(colors) || colors.length === 0) {
-  console.error("Colors array is empty or invalid.");
-} else {
-  // Set initial color display
-  colorDisplay.textContent = colors[0];
-
-  const applyRandomColor = () => {
-    const idx = getRandomNumber(colors.length);
-    const value = colors[idx];
-    document.body.style.backgroundColor = value;
-    colorDisplay.textContent = value;
-  };
-
-  btn.addEventListener("click", applyRandomColor);
-
-  // Keyboard accessibility: Enter or Space triggers color change when button focused
-  btn.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      applyRandomColor();
-    }
-  });
-
-  // Optional: click the color text to copy value to clipboard
-  colorDisplay.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(colorDisplay.textContent);
-      // brief feedback (could be replaced with a tooltip)
-      const original = colorDisplay.textContent;
-      colorDisplay.textContent = "Copied!";
-      setTimeout(() => (colorDisplay.textContent = original), 1000);
-    } catch (err) {
-      console.error("Copy failed", err);
-    }
-  });
-}
-
-function getRandomNumber(max) {
-  return Math.floor(Math.random() * max);
-}
+btn.addEventListener("click", function() {
+  // Get random color from array
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  const randomColor = colors[randomIndex];
+  
+  // Update background and text
+  document.body.style.backgroundColor = randomColor.hex;
+  colorDisplay.textContent = `${randomColor.name} (${randomColor.hex})`;
+});

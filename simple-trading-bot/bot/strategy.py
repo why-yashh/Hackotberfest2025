@@ -1,6 +1,6 @@
 def placeholder_strategy(price):
     if price < 100:
-        return 'buy'
+        return "buy"
     elif price > 101:
-        return 'sell'
+        return "sell"
     return None

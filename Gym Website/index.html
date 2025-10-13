@@ -469,7 +469,7 @@
         <div id="tracker" class="section">
             <h2>Progress Tracker</h2>
             <p>Monitor your journey. Your recent workouts are displayed below.</p>
-            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?fit=crop&w=800&h=400" alt="Progress Chart" 
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?fit=crop&w=800&h=400" alt="Progress Chart"
                  onerror="this.src='https://via.placeholder.com/800x400?text=Progress+Tracker+Image'; this.nextElementSibling.style.display='block';">
             <div class="fallback-message">Image failed to load. Please check your connection.</div>
             <h3>Recent Workouts</h3>
@@ -537,7 +537,7 @@
             workouts.forEach((workout, index) => {
                 // Render in Daily Workouts
                 const workoutLi = document.createElement('li');
-                workoutLi.innerHTML = `<i class="fas fa-dumbbell"></i> ${workout.name} - ${workout.reps} reps 
+                workoutLi.innerHTML = `<i class="fas fa-dumbbell"></i> ${workout.name} - ${workout.reps} reps
                     <button onclick="removeWorkout(${index})">Remove</button>`;
                 workoutList.appendChild(workoutLi);
 

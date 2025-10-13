@@ -6,14 +6,14 @@ import { setMessages } from "../../redux/messageSlice";
 import useGetMessages from "../../hooks/useGetMessages";
 import useGetRealTimeMessage from "../../hooks/useGetRealTimeMessage";
 const SendInput = () => {
-  
+
 const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const {selectedUser} = useSelector(store => store.user);
   const {messages} = useSelector(store => store.message);
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    
+
     try {
       const res = await axios.post(
         `http://localhost:8080/api/v1/message/send/${selectedUser?._id}`,
@@ -24,10 +24,10 @@ const [message, setMessage] = useState("");
           },
           withCredentials: true,
         }
-      ); 
+      );
       console.log(res)
       dispatch(setMessages([...messages ,res?.data?.newMessage]))
-      
+
     } catch (error) {
       console.log(error);
     }

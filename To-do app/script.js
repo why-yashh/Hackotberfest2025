@@ -29,7 +29,7 @@ d.addEventListener("submit",(e)=>{
     div.style.overflow="auto";
     div.style.wordBreak="break-word";
     div.classList.add("task");
-    div.style.setProperty('scrollbar-width', 'none'); 
+    div.style.setProperty('scrollbar-width', 'none');
 
 
     let span = document.createElement("span");
@@ -59,7 +59,7 @@ d.addEventListener("submit",(e)=>{
     wrapper.id="wrapper";
     wrapper.style.display="flex";
     wrapper.style.margin="15px";
-    
+
 
 
     div.appendChild(span);
@@ -67,8 +67,7 @@ d.addEventListener("submit",(e)=>{
     wrapper.appendChild(div);
     c.appendChild(wrapper);
 
-   
+
     input.value="";
 
 });
-

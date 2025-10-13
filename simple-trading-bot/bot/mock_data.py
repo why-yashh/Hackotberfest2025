@@ -1,5 +1,6 @@
 import random
 
+
 class MockMarket:
     def __init__(self, base_price=100.0):
         self.price = base_price

@@ -45,7 +45,7 @@ sc[2].innerHTML=`B SCORE:<br><br><br>${bots}`;
 
 function updateresult(result){
     sc[1].innerHTML=`<br>This Round:<br><br>${result}`;
-    
+
 }
 
 function end(){

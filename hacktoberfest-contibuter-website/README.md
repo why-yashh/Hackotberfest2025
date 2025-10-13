@@ -123,7 +123,7 @@ hacktoberfest-contributor-website/
 async function fetchContributors(page = 1) {
     const response = await fetch(`${GITHUB_API_BASE}/repos/${REPO_OWNER}/${REPO_NAME}/contributors?page=${page}&per_page=12`);
     const data = await response.json();
-    
+
     // Enrich with additional user data
     const enrichedContributors = await Promise.all(
         data.map(async (contributor) => {
@@ -131,7 +131,7 @@ async function fetchContributors(page = 1) {
             return { ...contributor, ...await userResponse.json() };
         })
     );
-    
+
     return enrichedContributors;
 }
 ```

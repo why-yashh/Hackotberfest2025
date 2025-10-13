@@ -286,7 +286,7 @@ fig.update_layout(template="plotly_dark")  # Try: 'plotly_white', 'seaborn'
 **Solution**: Some stocks may be delisted. Remove them from the `tickers` list.
 
 ### Issue: Slow loading times
-**Solution**: 
+**Solution**:
 - Reduce the number of selected stocks
 - Shorten the date range
 - Clear Streamlit cache: `streamlit cache clear`
@@ -336,7 +336,7 @@ pip install -r requirements.txt --force-reinstall
 ---
 ## ⚠️ Disclaimer
 
-**IMPORTANT**: This dashboard is for educational and informational purposes only. 
+**IMPORTANT**: This dashboard is for educational and informational purposes only.
 
 - **Not Financial Advice**: Do not use this tool as the sole basis for investment decisions
 - **No Warranty**: The software is provided "as is" without warranty of any kind

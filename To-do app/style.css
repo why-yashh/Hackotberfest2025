@@ -24,11 +24,11 @@ body{
     text-decoration:none;
     color:#fff;
     margin-right: 7px;
-    
+
 }
 .ref{
     display: flex;
-    justify-content: space-evenly; 
+    justify-content: space-evenly;
 }
 .head{
     text-align: center;
@@ -74,4 +74,3 @@ margin:25px;
     background-color:khaki;
     border: 5px solid white;
 }
-
