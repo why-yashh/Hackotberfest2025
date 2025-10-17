@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-GitHub Auto Merge Bot
-Automatically merges pull requests based on configurable conditions.
+GitHub Auto Approve Bot
+Automatically approves pull requests based on configurable conditions.
 """
 
 import os
@@ -9,10 +9,10 @@ import sys
 import json
 import time
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Dict, List, Optional, Any
 
-class GitHubAutoMergeBot:
+class GitHubAutoApproveBot:
     def __init__(self):
         self.token = os.getenv('GITHUB_TOKEN')
         self.repo_name = os.getenv('REPO_NAME')
@@ -24,7 +24,7 @@ class GitHubAutoMergeBot:
         self.headers = {
             'Authorization': f'token {self.token}',
             'Accept': 'application/vnd.github.v3+json',
-            'User-Agent': 'GitHub-Auto-Merge-Bot/1.0'
+            'User-Agent': 'GitHub-Auto-Approve-Bot/1.0'
         }
         self.base_url = f'https://api.github.com/repos/{self.repo_name}'
         
@@ -33,20 +33,19 @@ class GitHubAutoMergeBot:
     
     def load_config(self) -> Dict[str, Any]:
         """Load configuration from file or use defaults."""
-        config_file = '.github/auto_merge_config.json'
+        config_file = '.github/auto_approve_config.json'
         default_config = {
-            "auto_merge_enabled": True,
-            "require_approvals": 1,
-            "require_status_checks": True,
-            "require_branch_up_to_date": True,
-            "allowed_merge_methods": ["squash", "merge", "rebase"],
-            "default_merge_method": "squash",
-            "auto_merge_labels": ["auto-merge", "bot-approved"],
-            "blocking_labels": ["do-not-merge", "needs-review", "wip"],
-            "required_checks": ["CI", "code-quality"],
-            "max_wait_time_minutes": 30,
+            "auto_approve_enabled": True,
+            "auto_approve_labels": ["auto-approve", "bot-approve"],
+            "blocking_labels": ["do-not-approve", "needs-review", "wip", "draft"],
+            "require_checks_passing": True,
+            "max_file_changes": 50,
+            "max_additions": 1000,
+            "max_deletions": 1000,
             "trusted_contributors": [],
-            "auto_merge_all": False
+            "auto_approve_all": False,
+            "min_commits": 1,
+            "require_meaningful_commits": True
         }
         
         try:
@@ -119,13 +118,13 @@ class GitHubAutoMergeBot:
             print(f"❌ Error fetching status checks: {e}")
             return {}
     
-    def check_auto_merge_conditions(self, pr_info: Dict[str, Any]) -> tuple[bool, List[str]]:
-        """Check if PR meets auto-merge conditions."""
+    def check_auto_approve_conditions(self, pr_info: Dict[str, Any]) -> tuple[bool, List[str]]:
+        """Check if PR meets auto-approve conditions."""
         issues = []
         
-        # Check if auto-merge is enabled
-        if not self.config.get('auto_merge_enabled', True):
-            issues.append("Auto-merge is disabled")
+        # Check if auto-approve is enabled
+        if not self.config.get('auto_approve_enabled', True):
+            issues.append("Auto-approve is disabled")
             return False, issues
         
         # Check if PR is draft
@@ -138,44 +137,66 @@ class GitHubAutoMergeBot:
             issues.append(f"PR is not open (state: {pr_info.get('state')})")
             return False, issues
         
-        # Check mergeable state
-        mergeable_state = pr_info.get('mergeable_state')
-        if mergeable_state not in ['clean', 'unstable']:
-            issues.append(f"PR is not mergeable (state: {mergeable_state})")
+        # Check labels
+        labels = [label['name'] for label in pr_info.get('labels', [])]
+        
+        # Check for auto-approve labels
+        auto_approve_labels = self.config.get('auto_approve_labels', ['auto-approve'])
+        has_auto_approve_label = any(label in labels for label in auto_approve_labels)
+        
+        if not has_auto_approve_label and not self.config.get('auto_approve_all', False):
+            issues.append(f"PR does not have auto-approve label. Required: {auto_approve_labels}")
             return False, issues
         
         # Check for blocking labels
-        labels = [label['name'] for label in pr_info.get('labels', [])]
         blocking_labels = self.config.get('blocking_labels', [])
         for label in labels:
             if label in blocking_labels:
                 issues.append(f"PR has blocking label: {label}")
                 return False, issues
         
-        # Check approvals
-        required_approvals = self.config.get('require_approvals', 1)
-        if required_approvals > 0:
-            reviews = self.get_pr_reviews()
-            approvals = sum(1 for review in reviews if review['state'] == 'APPROVED')
-            if approvals < required_approvals:
-                issues.append(f"Need {required_approvals} approvals, got {approvals}")
+        # Check file changes
+        max_file_changes = self.config.get('max_file_changes', 50)
+        if pr_info.get('changed_files', 0) > max_file_changes:
+            issues.append(f"Too many files changed: {pr_info.get('changed_files')} > {max_file_changes}")
+            return False, issues
+        
+        # Check additions/deletions
+        max_additions = self.config.get('max_additions', 1000)
+        max_deletions = self.config.get('max_deletions', 1000)
+        
+        if pr_info.get('additions', 0) > max_additions:
+            issues.append(f"Too many additions: {pr_info.get('additions')} > {max_additions}")
+            return False, issues
+        
+        if pr_info.get('deletions', 0) > max_deletions:
+            issues.append(f"Too many deletions: {pr_info.get('deletions')} > {max_deletions}")
+            return False, issues
+        
+        # Check commits
+        commits = self.get_pr_commits()
+        min_commits = self.config.get('min_commits', 1)
+        if len(commits) < min_commits:
+            issues.append(f"Not enough commits: {len(commits)} < {min_commits}")
+            return False, issues
+        
+        # Check if commits are meaningful
+        if self.config.get('require_meaningful_commits', True):
+            meaningful_commits = 0
+            for commit in commits:
+                message = commit.get('commit', {}).get('message', '')
+                if len(message.strip()) > 10 and not message.startswith('Merge'):
+                    meaningful_commits += 1
+            
+            if meaningful_commits < min_commits:
+                issues.append("Commits are not meaningful enough")
                 return False, issues
         
         # Check status checks
-        if self.config.get('require_status_checks', True):
+        if self.config.get('require_checks_passing', True):
             status_checks = self.get_status_checks()
-            required_checks = self.config.get('required_checks', [])
-            
-            if required_checks:
-                for check in required_checks:
-                    # This is a simplified check - in practice, you'd need to check
-                    # the actual status of each required check
-                    pass
-        
-        # Check if branch is up to date
-        if self.config.get('require_branch_up_to_date', True):
-            if not pr_info.get('mergeable', False):
-                issues.append("Branch is not up to date with base branch")
+            if status_checks.get('state') not in ['success', 'pending']:
+                issues.append("Required status checks are not passing")
                 return False, issues
         
         return True, issues
@@ -208,31 +229,28 @@ class GitHubAutoMergeBot:
             print(f"❌ Error adding comment: {e}")
             return False
     
-    def merge_pr(self) -> bool:
-        """Merge the pull request."""
+    def approve_pr(self) -> bool:
+        """Approve the pull request."""
         try:
-            merge_method = self.config.get('default_merge_method', 'squash')
-            
             data = {
-                'commit_title': f'Auto-merge: PR #{self.pr_number}',
-                'commit_message': f'Automatically merged via GitHub Auto Merge Bot\n\nPR #{self.pr_number}',
-                'merge_method': merge_method
+                'event': 'APPROVE',
+                'body': f'🤖 **Auto-approval by GitHub Bot**\n\nThis PR has been automatically approved based on configured conditions.\n\n**Approval Details:**\n- Timestamp: {datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")}\n- Bot Version: 1.0'
             }
             
-            response = requests.put(
-                f'{self.base_url}/pulls/{self.pr_number}/merge',
+            response = requests.post(
+                f'{self.base_url}/pulls/{self.pr_number}/reviews',
                 headers=self.headers,
                 json=data
             )
             response.raise_for_status()
             return True
         except requests.RequestException as e:
-            print(f"❌ Error merging PR: {e}")
+            print(f"❌ Error approving PR: {e}")
             return False
     
     def process_pr(self):
         """Main method to process the PR."""
-        print(f"🤖 Processing PR #{self.pr_number} in {self.repo_name}")
+        print(f"🤖 Processing PR #{self.pr_number} for auto-approval in {self.repo_name}")
         
         # Get PR information
         pr_info = self.get_pr_info()
@@ -243,49 +261,61 @@ class GitHubAutoMergeBot:
         print(f"📋 PR Title: {pr_info.get('title', 'N/A')}")
         print(f"👤 Author: {pr_info.get('user', {}).get('login', 'N/A')}")
         print(f"🏷️ Labels: {[label['name'] for label in pr_info.get('labels', [])]}")
+        print(f"📊 Files: {pr_info.get('changed_files', 0)} changed, +{pr_info.get('additions', 0)} -{pr_info.get('deletions', 0)}")
         
-        # Check auto-merge conditions
-        can_merge, issues = self.check_auto_merge_conditions(pr_info)
+        # Check auto-approve conditions
+        can_approve, issues = self.check_auto_approve_conditions(pr_info)
         
-        if can_merge:
-            print("✅ PR meets auto-merge conditions")
+        if can_approve:
+            print("✅ PR meets auto-approve conditions")
             
-            # Add auto-merge labels
-            auto_merge_labels = self.config.get('auto_merge_labels', ['auto-merge', 'bot-approved'])
-            self.add_labels(auto_merge_labels)
+            # Add approval labels
+            approval_labels = ['bot-approved', 'auto-approved']
+            self.add_labels(approval_labels)
             
             # Add comment
-            comment = f"""🤖 **Auto Merge Bot**
+            comment = f"""🤖 **Auto Approve Bot**
 
-This PR has been automatically approved and will be merged shortly!
+This PR has been automatically approved!
 
 **Conditions met:**
-- ✅ PR is ready for merge
+- ✅ PR is ready for review
 - ✅ All required checks passed
 - ✅ No blocking labels present
+- ✅ File changes within limits
 
-**Merge method:** {self.config.get('default_merge_method', 'squash')}
-**Timestamp:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}
+**Approval Details:**
+- **Timestamp:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}
+- **Bot Version:** 1.0
+- **Files Changed:** {pr_info.get('changed_files', 0)}
+- **Additions:** +{pr_info.get('additions', 0)}
+- **Deletions:** -{pr_info.get('deletions', 0)}
 """
             self.add_comment(comment)
             
-            # Attempt to merge
-            if self.merge_pr():
-                print("🚀 PR successfully merged!")
+            # Attempt to approve
+            if self.approve_pr():
+                print("👍 PR successfully approved!")
             else:
-                print("❌ Failed to merge PR")
+                print("❌ Failed to approve PR")
         else:
-            print("❌ PR does not meet auto-merge conditions:")
+            print("❌ PR does not meet auto-approve conditions:")
             for issue in issues:
                 print(f"  - {issue}")
             
-            # Add comment explaining why it can't be merged
-            comment = f"""🤖 **Auto Merge Bot**
+            # Add comment explaining why it can't be approved
+            comment = f"""🤖 **Auto Approve Bot**
 
-This PR cannot be automatically merged at this time.
+This PR cannot be automatically approved at this time.
 
-**Issues preventing auto-merge:**
+**Issues preventing auto-approval:**
 {chr(10).join(f'- {issue}' for issue in issues)}
+
+**To enable auto-approval:**
+- Add one of these labels: {', '.join(self.config.get('auto_approve_labels', ['auto-approve']))}
+- Remove any blocking labels: {', '.join(self.config.get('blocking_labels', []))}
+- Ensure all required checks pass
+- Keep file changes within limits
 
 Please address these issues and the bot will try again on the next update.
 """
@@ -294,7 +324,7 @@ Please address these issues and the bot will try again on the next update.
 def main():
     """Main entry point."""
     try:
-        bot = GitHubAutoMergeBot()
+        bot = GitHubAutoApproveBot()
         bot.process_pr()
     except Exception as e:
         print(f"❌ Bot error: {e}")
