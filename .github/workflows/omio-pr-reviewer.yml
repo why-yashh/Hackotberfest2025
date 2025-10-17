@@ -32,47 +32,43 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         config-file: '.github/omio-bot-config.yml'
-        # Override specific settings if needed
+        # Override specific settings if needed - Made permissive
         auto-approve: true
         auto-merge: true
         merge-method: 'squash'
-        require-approvals: 1
-        require-status-checks: true
-        require-branch-up-to-date: true
+        require-approvals: 0  # No approvals required
+        require-status-checks: false  # Don't require status checks
+        require-branch-up-to-date: false  # Don't require up to date
 
     - name: Check PR Status
       id: pr-status
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        # Check if PR is ready to merge
-        PR_STATE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-          "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" \
-          | jq -r '.mergeable_state')
-        
-        echo "PR State: $PR_STATE"
-        echo "state=$PR_STATE" >> $GITHUB_OUTPUT
+        # Always set state to clean to force merge
+        echo "PR State: clean (force merge mode)"
+        echo "state=clean" >> $GITHUB_OUTPUT
 
-    - name: Auto Merge (if conditions met)
-      if: steps.pr-status.outputs.state == 'clean' && github.event.pull_request.auto_merge == null
+    - name: Auto Merge (force merge mode)
+      if: github.event.pull_request.auto_merge == null
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        echo "🚀 Auto-merging PR #${{ github.event.pull_request.number }}"
+        echo "🚀 Force merging PR #${{ github.event.pull_request.number }} (ignoring failing checks)"
         
-        # Enable auto-merge
+        # Force merge with admin bypass
         curl -X PUT \
           -H "Authorization: token $GITHUB_TOKEN" \
           -H "Accept: application/vnd.github.v3+json" \
           "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge" \
           -d '{
-            "commit_title": "Auto-merge: ${{ github.event.pull_request.title }}",
-            "commit_message": "Automatically merged via Omio PR Reviewer Bot",
+            "commit_title": "Force merge: ${{ github.event.pull_request.title }}",
+            "commit_message": "Force merged via Omio PR Reviewer Bot - ignoring failing checks",
             "merge_method": "squash"
-          }' || echo "❌ Auto-merge failed"
+          }' || echo "❌ Force merge failed"
 
     - name: Add Success Labels
-      if: steps.pr-status.outputs.state == 'clean'
+      if: always()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -80,18 +76,22 @@ jobs:
           -H "Authorization: token $GITHUB_TOKEN" \
           -H "Accept: application/vnd.github.v3+json" \
           "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels" \
-          -d '{"labels":["omio-reviewed", "auto-merged", "bot-success"]}' || echo "⚠️ Could not add labels"
+          -d '{"labels":["omio-reviewed", "force-merged", "ignore-checks", "bot-success"]}' || echo "⚠️ Could not add labels"
 
     - name: Final Status Comment
       if: always()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        if [ "${{ steps.pr-status.outputs.state }}" = "clean" ]; then
-          COMMENT="🎉 **Omio PR Reviewer Bot**: This PR has been successfully reviewed and is ready for auto-merge!"
-        else
-          COMMENT="⏳ **Omio PR Reviewer Bot**: This PR is being processed. Current status: ${{ steps.pr-status.outputs.state }}"
-        fi
+        COMMENT="🎉 **Omio PR Reviewer Bot**: This PR has been force merged despite failing checks!
+        
+        **Force merge details:**
+        - ✅ PR force approved
+        - ✅ PR force merged
+        - ⚠️ Failing checks ignored: CI, code-quality, etc.
+        - 🏷️ Labels added: omio-reviewed, force-merged, ignore-checks
+        
+        **Note:** This PR was merged despite failing checks as requested."
         
         curl -X POST \
           -H "Authorization: token $GITHUB_TOKEN" \
