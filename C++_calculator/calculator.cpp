@@ -12,7 +12,7 @@ int main() {
   cin >> operation;
 
   cout << "Enter two numbers: ";
-  cin >> num1 >> num2;
+  cin >> num1 >> num2:num
 
   switch (operation) {
     case '+':
