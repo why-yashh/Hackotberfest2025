@@ -7,9 +7,7 @@
 #include <cstdlib>
 #endif
 
-using namespace std;
-
-// --- Global Variables ---
+using
 bool isRunning = true;
 vector<vector<char>> board(3, vector<char>(3, ' '));
 
