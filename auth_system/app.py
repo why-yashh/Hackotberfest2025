@@ -9,7 +9,18 @@ from oauthlib.oauth2 import WebApplicationClient
 import requests
 
 app = Flask(__name__)
-CORS(app)
+# Restrict CORS to trusted origins and only for auth endpoints
+allowed_origins = [
+    "https://your-frontend.com",  # Replace with your actual frontend origin(s)
+    # Add more trusted origins as needed
+]
+CORS(app, resources={
+    r"/login": {"origins": allowed_origins, "supports_credentials": True},
+    r"/register": {"origins": allowed_origins, "supports_credentials": True},
+    r"/profile": {"origins": allowed_origins, "supports_credentials": True},
+    r"/login/google": {"origins": allowed_origins, "supports_credentials": True},
+    r"/login/google/callback": {"origins": allowed_origins, "supports_credentials": True},
+}, supports_credentials=True)
 secret_key = os.environ.get('SECRET_KEY')
 if not secret_key:
     raise RuntimeError("SECRET_KEY environment variable must be set and not empty.")
@@ -23,7 +34,7 @@ GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
 if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
     raise RuntimeError("Missing required OAuth credentials: GOOGLE_CLIENT_ID and/or GOOGLE_CLIENT_SECRET environment variables must be set.")
 GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
-client = WebApplicationClient(GOOGLE_CLIENT_ID)
+# Do NOT instantiate WebApplicationClient as a module-level singleton.
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -66,7 +77,7 @@ def login():
     if not isinstance(data['email'], str) or not isinstance(data['password'], str):
         return jsonify({'error': 'Invalid field types'}), 400
     user = User.query.filter_by(email=data['email']).first()
-    if not user or not check_password_hash(user.password_hash, data['password']):
+    if not user or not user.password_hash or not check_password_hash(user.password_hash, data['password']):
         return jsonify({'error': 'Invalid credentials'}), 401
     token = create_jwt(user)
     return jsonify({'token': token, 'user': {'email': user.email, 'name': user.name}})
@@ -76,7 +87,7 @@ def profile():
     token = request.headers.get('Authorization', '').replace('Bearer ', '')
     try:
         payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
-        user = User.query.get(payload['user_id'])
+        user = db.session.get(User, payload['user_id'])
         if not user:
             return jsonify({'error': 'User not found'}), 404
         return jsonify({'email': user.email, 'name': user.name})
@@ -88,6 +99,8 @@ def profile():
 # OAuth2 login (Google example)
 @app.route('/login/google')
 def login_google():
+    from oauthlib.oauth2 import WebApplicationClient
+    client = WebApplicationClient(GOOGLE_CLIENT_ID)
     try:
         response = requests.get(GOOGLE_DISCOVERY_URL)
         response.raise_for_status()
@@ -106,34 +119,47 @@ def login_google():
 
 @app.route('/login/google/callback')
 def callback_google():
+    from oauthlib.oauth2 import WebApplicationClient
+    client = WebApplicationClient(GOOGLE_CLIENT_ID)
     code = request.args.get("code")
-    google_provider_cfg = requests.get(GOOGLE_DISCOVERY_URL).json()
-    token_endpoint = google_provider_cfg["token_endpoint"]
-    token_url, headers, body = client.prepare_token_request(
-        token_endpoint,
-        authorization_response=request.url,
-        redirect_url=request.base_url,
-        code=code
-    )
-    token_response = requests.post(
-        token_url,
-        headers=headers,
-        data=body,
-        auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
-    )
-    client.parse_request_body_response(token_response.text)
-    userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
-    uri, headers, body = client.add_token(userinfo_endpoint)
-    userinfo_response = requests.get(uri, headers=headers, data=body)
-    userinfo = userinfo_response.json()
-    email = userinfo["email"]
-    user = User.query.filter_by(email=email).first()
-    if not user:
-        user = User(email=email, name=userinfo.get("name"), oauth_provider="google", oauth_id=userinfo["sub"])
-        db.session.add(user)
-        db.session.commit()
-    token = create_jwt(user)
-    return jsonify({'token': token, 'user': {'email': user.email, 'name': user.name}})
+    try:
+        response = requests.get(GOOGLE_DISCOVERY_URL)
+        response.raise_for_status()
+        google_provider_cfg = response.json()
+        token_endpoint = google_provider_cfg["token_endpoint"]
+        token_url, headers, body = client.prepare_token_request(
+            token_endpoint,
+            authorization_response=request.url,
+            redirect_url=request.base_url,
+            code=code
+        )
+        token_response = requests.post(
+            token_url,
+            headers=headers,
+            data=body,
+            auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
+        )
+        token_response.raise_for_status()
+        client.parse_request_body_response(token_response.text)
+        userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
+        uri, headers, body = client.add_token(userinfo_endpoint)
+        userinfo_response = requests.get(uri, headers=headers, data=body)
+        userinfo_response.raise_for_status()
+        userinfo = userinfo_response.json()
+        email = userinfo["email"]
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            user = User(email=email, name=userinfo.get("name"), oauth_provider="google", oauth_id=userinfo["sub"])
+            db.session.add(user)
+            db.session.commit()
+        token = create_jwt(user)
+        return jsonify({'token': token, 'user': {'email': user.email, 'name': user.name}})
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': 'Network error during Google OAuth', 'details': str(e)}), 503
+    except ValueError as e:
+        return jsonify({'error': 'Invalid response from Google provider', 'details': str(e)}), 502
+    except KeyError as e:
+        return jsonify({'error': f'Missing expected key in Google response: {str(e)}'}), 502
 
 if __name__ == "__main__":
     with app.app_context():
