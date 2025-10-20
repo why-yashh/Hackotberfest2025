@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, jsonify, redirect, url_for
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import jwt
@@ -9,13 +10,18 @@ import requests
 
 app = Flask(__name__)
 CORS(app)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'supersecretkey')
+secret_key = os.environ.get('SECRET_KEY')
+if not secret_key:
+    raise RuntimeError("SECRET_KEY environment variable must be set and not empty.")
+app.config['SECRET_KEY'] = secret_key
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 db = SQLAlchemy(app)
 
 # OAuth2 config (Google example)
-GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', 'your-google-client-id')
-GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', 'your-google-client-secret')
+GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
+if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
+    raise RuntimeError("Missing required OAuth credentials: GOOGLE_CLIENT_ID and/or GOOGLE_CLIENT_SECRET environment variables must be set.")
 GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
@@ -23,7 +29,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     name = db.Column(db.String(120))
-    password = db.Column(db.String(120))  # For local auth only
+    password_hash = db.Column(db.String(128))  # For local auth only
     oauth_provider = db.Column(db.String(50))
     oauth_id = db.Column(db.String(120))
 
@@ -39,9 +45,14 @@ def create_jwt(user):
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
+    if not data or 'email' not in data or 'password' not in data:
+        return jsonify({'error': 'Missing required fields'}), 400
+    if not isinstance(data['email'], str) or not isinstance(data['password'], str):
+        return jsonify({'error': 'Invalid field types'}), 400
     if User.query.filter_by(email=data['email']).first():
         return jsonify({'error': 'Email already registered'}), 400
-    user = User(email=data['email'], name=data.get('name'), password=data['password'])
+    password_hash = generate_password_hash(data['password'])
+    user = User(email=data['email'], name=data.get('name'), password_hash=password_hash)
     db.session.add(user)
     db.session.commit()
     token = create_jwt(user)
@@ -50,8 +61,12 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
-    user = User.query.filter_by(email=data['email'], password=data['password']).first()
-    if not user:
+    if not data or 'email' not in data or 'password' not in data:
+        return jsonify({'error': 'Missing required fields'}), 400
+    if not isinstance(data['email'], str) or not isinstance(data['password'], str):
+        return jsonify({'error': 'Invalid field types'}), 400
+    user = User.query.filter_by(email=data['email']).first()
+    if not user or not check_password_hash(user.password_hash, data['password']):
         return jsonify({'error': 'Invalid credentials'}), 401
     token = create_jwt(user)
     return jsonify({'token': token, 'user': {'email': user.email, 'name': user.name}})
@@ -62,15 +77,26 @@ def profile():
     try:
         payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
         user = User.query.get(payload['user_id'])
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
         return jsonify({'email': user.email, 'name': user.name})
-    except Exception as e:
+    except jwt.ExpiredSignatureError:
+        return jsonify({'error': 'Token expired'}), 401
+    except jwt.InvalidTokenError:
         return jsonify({'error': 'Invalid token'}), 401
 
 # OAuth2 login (Google example)
 @app.route('/login/google')
 def login_google():
-    google_provider_cfg = requests.get(GOOGLE_DISCOVERY_URL).json()
-    authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+    try:
+        response = requests.get(GOOGLE_DISCOVERY_URL)
+        response.raise_for_status()
+        google_provider_cfg = response.json()
+        authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': 'Failed to fetch Google provider configuration', 'details': str(e)}), 503
+    except ValueError as e:
+        return jsonify({'error': 'Invalid response from Google provider', 'details': str(e)}), 502
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
         redirect_uri=request.base_url + "/callback",
@@ -112,4 +138,5 @@ def callback_google():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() in ('true', '1', 'yes')
+    app.run(debug=debug_mode)
