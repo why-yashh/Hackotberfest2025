@@ -1,6 +1,6 @@
 # Auth System
 
-A robust user authentication system for Hackotberfest2025 using Flask, OAuth2 (Google), and JWT.
+A robust user authentication system for Hacktoberfest2025 using Flask, OAuth2 (Google), and JWT.
 
 ## Features
 - User registration and login
