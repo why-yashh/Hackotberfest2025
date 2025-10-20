@@ -199,3 +199,21 @@ pre-commit install
 
 # Now hooks run automatically on commit
 git commit -m "your message"
+
+
+```markdown
+---
+
+## 🌟 Contributor Recognition
+
+We love to highlight our amazing contributors!  
+Every contribution — whether it’s fixing a typo, improving documentation, or adding a new feature — helps this project grow.
+
+Want to be featured here?  
+Contribute by solving an issue, improving the docs, or enhancing the user experience.
+
+| Contributor | Contribution |
+|--------------|--------------|
+| [@supriya-cybertech](https://github.com/supriya-cybertech) | Documentation improvements: Enhanced community and contribution guidelines |
+
+Thank you for making open source awesome! 🙌
