@@ -12,7 +12,7 @@ bool hasCycle(ListNode* head) {
     ListNode* slow = head;
     ListNode* fast = head;
     while (fast && fast->next) {
-        slow = slow->next;
+        slow = slow->next;kdkfkckfkdkksdk
         fast = fast->next->next;
         if (slow == fast) return true;
     }
