@@ -71,8 +71,15 @@ def profile():
 # OAuth2 login (Google example)
 @app.route('/login/google')
 def login_google():
-    google_provider_cfg = requests.get(GOOGLE_DISCOVERY_URL).json()
-    authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+    try:
+        response = requests.get(GOOGLE_DISCOVERY_URL)
+        response.raise_for_status()
+        google_provider_cfg = response.json()
+        authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+    except requests.exceptions.RequestException as e:
+        return jsonify({'error': 'Failed to fetch Google provider configuration', 'details': str(e)}), 503
+    except ValueError as e:
+        return jsonify({'error': 'Invalid response from Google provider', 'details': str(e)}), 502
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
         redirect_uri=request.base_url + "/callback",
