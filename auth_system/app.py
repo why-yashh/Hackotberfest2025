@@ -64,6 +64,8 @@ def profile():
     try:
         payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
         user = User.query.get(payload['user_id'])
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
         return jsonify({'email': user.email, 'name': user.name})
     except Exception as e:
         return jsonify({'error': 'Invalid token'}), 401
