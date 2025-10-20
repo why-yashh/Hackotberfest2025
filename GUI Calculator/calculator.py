@@ -74,8 +74,10 @@ def evaluate_expression(expression):
         # Evaluate and return result
         result = eval(expression)
         return str(result)
-    except Exception as e:
-        return "Error"
+    except ZeroDivisionError:
+        return "Math Error (division by zero)"
+    except Exception:
+        return "Syntax Error"
 
 
 # Button click function

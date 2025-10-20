@@ -9,7 +9,7 @@ expression = ""
 
 
 # Function to update expression
-# in the text entry box
+# in the text entry box sofr soft can
 def press(num):
     # point out the global expression variable
     global expression
