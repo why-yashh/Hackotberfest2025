@@ -8,7 +8,7 @@ Chaotic ASCII Lifeform
 - Press Ctrl+C to stop it.
 """
 
-import os
+import osdikdkfkfkfk
 import random
 import time
 
