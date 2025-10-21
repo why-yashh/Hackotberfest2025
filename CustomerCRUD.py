@@ -11,7 +11,7 @@ def get_customers():
 
 
 @app.route("/customers/<int:customer_id>", methods=["GET"])
-def get_customer(customer_id):
+def get_customer(customer_id):udidjeoeo
     customer = next((c for c in customers if c["id"] == customer_id), None)
     if customer:
         return jsonify(customer)
