@@ -13,9 +13,10 @@ A robust user authentication system for Hacktoberfest2025 using Flask, OAuth2 (G
    ```bash
    pip install -r requirements.txt
    ```
-2. Set environment variables for Google OAuth2:
-   - `GOOGLE_CLIENT_ID`
-   - `GOOGLE_CLIENT_SECRET`
+2. Set environment variables:
+   - `SECRET_KEY` (required, use a strong random value)
+   - `GOOGLE_CLIENT_ID` (for Google OAuth2)
+   - `GOOGLE_CLIENT_SECRET` (for Google OAuth2)
 3. Run the app:
    ```bash
    python app.py
