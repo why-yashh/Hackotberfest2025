@@ -7,7 +7,7 @@ def set_alarm(alarm_time):
         current_time = time.strftime("%H:%M:%S")
         print(f"Current time: {current_time}", end="\r")
         if current_time == alarm_time:
-            print("\nTime to wake up!")
+            print("\nTime to wake up!");
             # Play a sound (only works on Windows)
             winsound.Beep(1000, 1000)  # Frequency (Hz), Duration (ms)
             break

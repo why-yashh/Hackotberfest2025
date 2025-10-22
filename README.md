@@ -21,7 +21,7 @@
 ### This repository is open to all members of the GitHub community. Any member can contribute to this project! :grin:
 
 ## What is Hacktoberfest? :thinking:
-A month-long celebration from October 1st to October 31st presented by [Digital Ocean](https://hacktoberfest.digitalocean.com/) and [DEV Community](https://dev.to/) collaborated with [GitHub](https://github.com/blog/2433-celebrate-open-source-this-october-with-hacktoberfest) to get people involved in [Open Source](https://github.com/open-source). Create your very first pull request to any public repository on GitHub and contribute to the open-source developer community.
+A month-long celebration from October 1st to October 31st, presented by [DigitalOcean](https://www.digitalocean.com/) and [DEV Community](https://dev.to/), in collaboration with [GitHub](https://github.com/blog/2433-celebrate-open-source-this-october-with-hacktoberfest), to get people involved in [Open Source](https://github.com/open-source). Create your very first pull request to any public repository on GitHub and contribute to the open-source developer community.
 
 [https://hacktoberfest.digitalocean.com/](https://hacktoberfest.digitalocean.com/)
 
@@ -47,7 +47,7 @@ Star the repository by pressing the topmost-right button to start your wonderful
 
 ### 2. Fork it :fork_and_knife:
 
-You can get your own fork/copy of [HacktoberFest-2024](https://github.com/Open-Source-you/HacktoberFest2024) by using the <a href="https://github.com/Open-Source-you/HacktoberFest2024/new/master?readme=1#fork-destination-box"><kbd><b>Fork</b></kbd></a> button.
+You can get your own fork/copy of [Hacktoberfest2025](https://github.com/Open-Source-you/Hackotberfest2025/fork) by using the <a href="https://github.com/Open-Source-you/Hackotberfest2025/fork"><kbd><b>Fork</b></kbd></a> button.
 
 
 ### 3. Clone it :busts_in_silhouette:
@@ -80,7 +80,7 @@ origin  https://github.com/Your_Username/Hacktoberfest-2025.git (fetch)
 origin  https://github.com/Your_Username/Hacktoberfest-2025.git (push)
 ```
 
-Now, let's add a reference to the original [Hacktoberfest-2025]https://github.com/Open-Source-you/Hackotberfest2022) repository using
+Now, let's add a reference to the original [Hacktoberfest-2025](https://github.com/Open-Source-you/Hackotberfest2022) repository using
 
 ```sh
 $ git remote add upstream https://github.com/Open-Source-you/Hackotberfest2025.git
@@ -199,3 +199,21 @@ pre-commit install
 
 # Now hooks run automatically on commit
 git commit -m "your message"
+
+
+```markdown
+---
+
+## 🌟 Contributor Recognition
+
+We love to highlight our amazing contributors!  
+Every contribution — whether it’s fixing a typo, improving documentation, or adding a new feature — helps this project grow.
+
+Want to be featured here?  
+Contribute by solving an issue, improving the docs, or enhancing the user experience.
+
+| Contributor | Contribution |
+|--------------|--------------|
+| [@supriya-cybertech](https://github.com/supriya-cybertech) | Documentation improvements: Enhanced community and contribution guidelines |
+
+Thank you for making open source awesome! 🙌
