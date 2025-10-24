@@ -26,7 +26,7 @@ A month-long celebration from October 1st to October 31st, presented by [Digital
 [https://hacktoberfest.digitalocean.com/](https://hacktoberfest.digitalocean.com/)
 
 ## Rules :fire:
-To qualify for the __official limited edition Hacktoberfest shirt__, you must register [here](https://hacktoberfest.digitalocean.com/) and make four Pull Requests (PRs) between October 1-31, 2025 (in any time zone). PRs can be made to any public repository on GitHub, not only the ones with issues labeled Hacktoberfest. This year, the __first 10,000__ participants who complete the challenge will earn a T-shirt.
+To qualify for the __official limited edition Hacktoberfest shirt__, you must register [here](https://hacktoberfest.digitalocean.com/) and make six Pull Requests (PRs) between October 1-31, 2025 (in any time zone). Contributions will count toward Hacktoberfest progress only if they are made to public repositories tagged with the topic 'hacktoberfest' or have a 'hacktoberfest-accepted' label. This year, the __first 10,000__ participants who complete the challenge will earn a T-shirt.
 
 ## Steps to follow :scroll:
 
