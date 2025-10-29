@@ -1,27 +1,29 @@
 # Problem Statement: Factorial of a Number
 
 ## Description
-Write a Python program to calculate the factorial of a non-negative integer. The factorial of a non-negative integer `n`, denoted by `n!`, is the product of all positive integers less than or equal to `n`. The factorial of 0 is 1.
+# Write a Python program to calculate the factorial of a non-negative integer. The factorial of a non-negative integer `n`, denoted by `n!`, is the product of all positive integers less than or equal to `n`. The factorial of 0 is 1.
 
-## Examples
-- `factorial(0)` should return `1`
-- `factorial(1)` should return `1`
-- `factorial(5)` should return `120` (since 5 * 4 * 3 * 2 * 1 = 120)
+# ## Examples
+# - `factorial(0)` should return `1`
+# - `factorial(1)` should return `1`
+# - `factorial(5)` should return `120` (since 5 * 4 * 3 * 2 * 1 = 120)
 
 ## Input
-A single non-negative integer `n`.
+# A single non-negative integer `n`.
 
 ## Output
-The factorial of `n`.
+# The factorial of `n`.
 
 ## Constraints
-- `n` will be a non-negative integer.
+# - `n` will be a non-negative integer.
 
 ## Time and Space Complexity
-- **Time Complexity**: O(n) - The function performs `n` multiplications in the iterative approach.
-- **Space Complexity**: O(1) - The function uses a constant amount of extra space.
+'''
+Time Complexity**: O(n) - The function performs `n` multiplications in the iterative approach.
+Space Complexity**: O(1) - The function uses a constant amount of extra space.
 
-```python
+python
+'''
 def factorial(n):
     """
     Calculates the factorial of a non-negative integer.
@@ -52,4 +54,3 @@ if __name__ == "__main__":
 
     num = 7
     print(f"The factorial of {num} is: {factorial(num)}") # Expected: 5040
-```
